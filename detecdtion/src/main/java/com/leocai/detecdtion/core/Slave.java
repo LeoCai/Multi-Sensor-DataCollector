@@ -76,6 +76,11 @@ public class Slave extends KeyExtractor {
             @Override
             public void run() {
                 try {
+                    try {
+                        Thread.sleep(1000);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
                     setStates(ExtractorStates.CONNECTING);
                     bleSocket.connect();
                     setStates(ExtractorStates.CONNECTED);

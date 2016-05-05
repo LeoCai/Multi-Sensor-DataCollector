@@ -20,7 +20,7 @@ public class PublicConstants {
 
     public static final String addressMI_424 = "58:44:98:48:5B:82";
     public static final String addressSAM_419 = "80:4E:81:C3:31:55";
-    public static final String MASTER_ADDRESS = addressSAM_419;
+    public static final String MASTER_ADDRESS = addressMI_424;
 
 
 }

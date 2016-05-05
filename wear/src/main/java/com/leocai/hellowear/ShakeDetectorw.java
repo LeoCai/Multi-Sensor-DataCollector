@@ -11,22 +11,24 @@ import com.leocai.hellowear.utils.ApplyFuncPeak;
 import com.leocai.hellowear.utils.ApplyFuncPeak2;
 import com.leocai.hellowear.utils.RollApply;
 import com.leocai.publiclibs.PublicConstants;
+import com.leocai.publiclibs.ShakingData;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Observable;
 
 /**
  * Created by leocai on 15-12-21.
  */
-public class ShakeDetector extends Observable  implements SensorEventListener {
+public class ShakeDetectorw extends Observable  implements SensorEventListener {
     private static final int PEAK_NUM = 5;
     public static final int THREHOLD_ACC = 3;
     private static final String TAG = "SHAKEDETECTOR";
     public static final int MAX_POINT_SIZE = 50;
     private boolean splitStarted;
 
-    private static final int WINDOW_SIZE = 2;
+    private static final int WINDOW_SIZE = 3;
     private ShakingData[] windowData = new ShakingData[WINDOW_SIZE];
     private long preTimestamp;
 
@@ -54,12 +56,13 @@ public class ShakeDetector extends Observable  implements SensorEventListener {
     public static volatile boolean sendingData;
     private List<Double> resultantantAccBuffer;
 
-    public ShakeDetector() {
+    public ShakeDetectorw() {
         cuShakingData.setLinearAccData(null);
         cuShakingData.setGyrData(null);
         cuShakingData.setDt(0);
         cuShakingData.setIndex(0);
         cuShakingData.setTimeStamp(0);
+        Collections.synchronizedList(shakingDatasBuffer);
         startDetection();
     }
 
@@ -80,13 +83,18 @@ public class ShakeDetector extends Observable  implements SensorEventListener {
                         addToWindow();//加入窗口
                         if (checkMultiScopeByWindow()) {
 //                            Log.d(TAG, "windowPeekNum:"+windowPeekNum+",cuWindowNum：" + cuWindowNum +",historyNum:" + historyNum);
-                            if (shakingDatasBuffer.size()==0) {
-                                addWindowToBuffer();
-                                Log.d(TAG, "addWindowToBuffer");
-                            } else {
-                                addPointToBuffer();
+                           synchronized (shakingDatasBuffer){
+                               if (shakingDatasBuffer.size()==0) {
+                                   addWindowToBuffer();
+                                   Log.d(TAG, "addWindowToBuffer");
+                               } else {
+                                   Log.d(TAG, "addPointToBuffer");
+
+                                   addPointToBuffer();
 //                                Log.d(TAG, "addPointToBuffer");
-                            }
+                               }
+                           }
+
                             splitStarted = true;
                         } else if (splitStarted) {
                             splitStarted = false;
@@ -95,13 +103,17 @@ public class ShakeDetector extends Observable  implements SensorEventListener {
                                 dealBuffer(PEAK_NUM);
                                 Log.d(TAG, "hasBuffer");
                             }
-                            shakingDatasBuffer.clear();
+                            synchronized (shakingDatasBuffer){
+                                shakingDatasBuffer.clear();
+                            }
                             Log.d(TAG, "clear");
 
 
                         } else {
                             splitStarted = false;
-                            shakingDatasBuffer.clear();
+                            synchronized (shakingDatasBuffer) {
+                                shakingDatasBuffer.clear();
+                            }
                             Log.d(TAG, "clear");
                             Log.d(TAG, "else");
                         }
@@ -154,13 +166,13 @@ public class ShakeDetector extends Observable  implements SensorEventListener {
             for (ShakingData shakingData : shakingDatasBuffer) {
                 resultantantAccBuffer.add(shakingData.getResultantAccData());
             }
-//        for (ShakingData shakingData : shakingDatasBuffer) {
+//        for (ShakingDataWear shakingData : shakingDatasBuffer) {
 //            Log.d(TAG, shakingData.toString());
 //        }
 //        setShakingDatasBuffer(shakingDatasBuffer);
-            meanRoll();
-            peakRoll();
-            peakRoll2();
+//            meanRoll();
+//            peakRoll();
+//            peakRoll2();
             shrinkPeak();
         }
 
@@ -195,20 +207,24 @@ public class ShakeDetector extends Observable  implements SensorEventListener {
         Log.d(TAG,"shrinkPeak");
         List<ShakingData> newBuffer = new ArrayList<>();
         int start = -1, end = 0;
-        for (int i = 0; i < resultantantAccBuffer.size(); i++) {
-            if (resultantantAccBuffer.get(i) > 0) {
-                if (start == -1) start = i;
-                end = i;
-            }
+//        for (int i = 0; i < resultantantAccBuffer.size(); i++) {
+//            if (resultantantAccBuffer.get(i) > 0) {
+//                if (start == -1) start = i;
+//                end = i;
+//            }
+//        }
+        start = 0;
+        if (start == -1||(start+MAX_POINT_SIZE) >= shakingDatasBuffer.size()) {
+            Log.d(TAG, "not shake");
+            return;
         }
-        if (start == -1||start >= shakingDatasBuffer.size()) return;
         end = MAX_POINT_SIZE - 1;
         sendingData = true;
         stop = true;
-        for (int i = start; i < shakingDatasBuffer.size(); i++) {
-            newBuffer.add(shakingDatasBuffer.get(i));
+        for (int i = start; i < start + MAX_POINT_SIZE; i++) {
+            newBuffer.add(new ShakingData(shakingDatasBuffer.get(i)));
         }
-//        for(ShakingData shakingData:shakingDatasBuffer){
+//        for(ShakingDataWear shakingData:shakingDatasBuffer){
 //            Log.d(TAG,shakingData.toString());
 //        }
         Log.d(TAG, "send data");
@@ -229,7 +245,7 @@ public class ShakeDetector extends Observable  implements SensorEventListener {
     }
 
     private boolean checkMultiScopeByWindow() {
-        return (historyNum >= 20 && cuWindowNum >= WINDOW_SIZE && 1.0 * windowPeekNum / WINDOW_SIZE > 0.3);
+        return (historyNum >= 20 && cuWindowNum >= WINDOW_SIZE && (1.0 * windowPeekNum / WINDOW_SIZE > 0.3));
     }
 
     private void addToWindow() {

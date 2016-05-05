@@ -57,6 +57,7 @@ public class WearDataGetterActivity extends AppCompatActivity implements Observe
 //                                tvLog.setText(logInfo.toString());
 //                            }
 //                        });
+
                         slave.onGetShakingDatas(shakingDatas);
                     }
                 });

@@ -12,7 +12,7 @@ import java.util.Random;
 /**
  * Created by leocai on 15-12-31.
  */
-public class ShakingData implements Serializable,Cloneable {
+public class ShakingDataWear implements Serializable,Cloneable {
 
     private static final long serialVersionUID = -6091530420906090649L;
 
@@ -25,14 +25,14 @@ public class ShakingData implements Serializable,Cloneable {
     private double resultantAccData;
     private double[] convertedData;
 
-    public ShakingData(double[] linearAccData, double[] gyrData, int index, double dt) {
+    public ShakingDataWear(double[] linearAccData, double[] gyrData, int index, double dt) {
         this.linearAccData = linearAccData;
         this.gyrData = gyrData;
         this.index = index;
         this.dt = dt;
     }
 
-    public ShakingData(byte[] sdBuffer) {
+    public ShakingDataWear(byte[] sdBuffer) {
 
         ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(sdBuffer);
         DataInputStream dataInputStream = new DataInputStream(byteArrayInputStream);
@@ -55,7 +55,7 @@ public class ShakingData implements Serializable,Cloneable {
 
     }
 
-    public ShakingData(ShakingData shakingData) {
+    public ShakingDataWear(ShakingDataWear shakingData) {
         copy(shakingData);
     }
 
@@ -79,7 +79,7 @@ public class ShakingData implements Serializable,Cloneable {
         return outputStream.toByteArray();
     }
 
-    public ShakingData() {
+    public ShakingDataWear() {
         Random random = new Random(System.currentTimeMillis());
         linearAccData = new double[]{random.nextDouble()*10, random.nextDouble()*10, random.nextDouble()*10};
         gravityAccData = new double[]{random.nextDouble()*10, random.nextDouble()*10, random.nextDouble()*10};
@@ -140,7 +140,7 @@ public class ShakingData implements Serializable,Cloneable {
 
     @Override
     public String toString() {
-        return "ShakingData{" +
+        return "ShakingDataWear{" +
                 "linearAccData=" + Arrays.toString(linearAccData) +
                 ", gyrData=" + Arrays.toString(gyrData) +
                 ", dt=" + dt +
@@ -167,11 +167,11 @@ public class ShakingData implements Serializable,Cloneable {
     }
 
     @Override
-    public ShakingData clone() throws CloneNotSupportedException {
-        return (ShakingData)super.clone();
+    public ShakingDataWear clone() throws CloneNotSupportedException {
+        return (ShakingDataWear)super.clone();
     }
 
-    public void copy(ShakingData cuShakingData) {
+    public void copy(ShakingDataWear cuShakingData) {
         this.index = cuShakingData.index;
         this.gyrData = Arrays.copyOf(cuShakingData.gyrData,3);
         this.linearAccData = Arrays.copyOf(cuShakingData.linearAccData,3);

@@ -46,6 +46,10 @@ public class BleConnection {
 
     }
 
+    public void close() throws IOException {
+        bleSocket.close();
+    }
+
 
     public void setIn(InputStream in) {
         this.in = in;
