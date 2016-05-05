@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">HelloWear</string>
+    <string name="hello_round">Hello Round World!</string>
+    <string name="hello_square">Hello Square World!</string>
+    <string name="title_activity_ble">BleActivity</string>
+    <string name="title_activity_wear">WearActivity</string>
+
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+</resources>

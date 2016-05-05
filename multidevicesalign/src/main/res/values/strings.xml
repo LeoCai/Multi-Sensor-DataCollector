@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">MultiDevicesAlign</string>
+
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+    <string name="title_activity_ble_sync">BleSyncActivity</string>
+    <string name="title_activity_simple_collection">SimpleCollectionActivity</string>
+    <string name="title_activity_simple_data">SimpleDataActivity</string>
+    <string name="title_activity_gps">GPSActivity</string>
+    <string name="title_activity_mag_test">MagTestActivity</string>
+</resources>

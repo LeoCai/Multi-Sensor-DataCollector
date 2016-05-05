@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">WearData</string>
+    <string name="hello_world">Hello World!</string>
+    <string name="title_activity_main2">Main2Activity</string>
+    <string name="hello_round">Hello Round World!</string>
+    <string name="hello_square">Hello Square World!</string>
+</resources>

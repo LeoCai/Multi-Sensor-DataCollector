@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">Detecdtion</string>
+
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+    <string name="title_activity_ble_brodcast">BleBrodcastActivity</string>
+    <string name="ble_uuid">CDB7950D-73F1-4D4D-8E47-C090502DBD63</string>
+    <string name="ble_uuid2">CDB0950D-73F1-4D4D-8E47-C090502DBD63</string>
+    <string name="title_activity_core_main">CoreMainActivity</string>
+    <string name="title_activity_test_core">TestCoreActivity</string>
+    <string name="title_activity_test_ble">TestBleActivity</string>
+</resources>
