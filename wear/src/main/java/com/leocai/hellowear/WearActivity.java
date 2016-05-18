@@ -88,6 +88,7 @@ public class WearActivity extends Activity implements Observer {
                             stopSensor();
                             ((Button) v).setText("STATSENSOR");
                         }
+                        
                     }
                 });
 
