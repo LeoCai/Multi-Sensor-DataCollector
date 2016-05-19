@@ -15,6 +15,7 @@ import com.leocai.publiclibs.multidecicealign.MySensorManager;
 import com.leocai.publiclibs.multidecicealign.StartCallBack;
 import com.leocai.publiclibs.multidecicealign.StopCallBack;
 
+import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -50,9 +51,11 @@ public class Main2Activity extends Activity {
                         bleClient = new BleClient();
                         bleClient.connect(new ConnectedCallBack() {
                             @Override
-                            public void onConnected() {
+                            public void onConnected(InputStream out) {
                                 showLog("Connected");
+
                             }
+
                         }, new StartCallBack() {
                             @Override
                             public void onStart() {

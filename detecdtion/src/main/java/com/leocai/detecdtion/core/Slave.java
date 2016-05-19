@@ -11,6 +11,7 @@ import com.leocai.publiclibs.ShakingData;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -111,12 +112,42 @@ public class Slave extends KeyExtractor {
                 for (byte b : bitsList) {
                     logInfo += b;
                 }
-                logInfo+="\n";
-                logInfo+="MismatchRate:"+mismatchRate;
+                logInfo += "\n";
+                logInfo += "MismatchRate:" + mismatchRate;
                 setLogInfo(logInfo);
             }
         });
     }
+
+    @Override
+    protected ShakeBits bitsByCooperate(byte[] tempBits, int m) {
+        DataInputStream inputStream = new DataInputStream(in);
+        List<Integer> indexes = new ArrayList<>();
+        try {
+            int len = inputStream.readInt();
+            for (int i = 0; i < len; i++) {
+                int index = inputStream.readInt();
+                byte target = tempBits[index];
+                boolean hasExcution = true;
+                for (int j = index-(m-1)/2; j <= index+(m-1)/2; j++) {
+                    if(tempBits[j]!=target){
+                        hasExcution = false;
+                        break;
+                    }
+                }
+                if(hasExcution)indexes.add(index);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        int indexLen = indexes.size();
+        List<Byte> shakeBits = new ArrayList<>();
+        for (int i = 0; i < indexLen; i++) {
+            shakeBits.add(tempBits[indexes.get(i)]);
+        }
+        return new ShakeBits(shakeBits);
+    }
+
 
     @Override
     protected boolean compareParity(byte[] bits, int subStart, int subEnd) throws IOException {

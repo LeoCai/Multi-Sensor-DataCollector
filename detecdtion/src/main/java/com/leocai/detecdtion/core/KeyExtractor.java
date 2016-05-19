@@ -11,6 +11,8 @@ import com.leocai.detecdtion.utils.MathUtils;
 import com.leocai.publiclibs.ShakeDetector;
 import com.leocai.publiclibs.ShakingData;
 
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -67,6 +69,79 @@ public abstract class KeyExtractor extends Observable implements SensorEventList
         }
         return shakingDatas;
     }
+
+    /**
+     * leval-crossing algorithm
+     * if data>q+, then 1
+     * if data<q-, then 0
+     * else, 2(other state)
+     * find consecutive bits (cout>=m) to generate excurtions,
+     * generate corresponding indexs,
+     * send indexes to Bob,check corresponding excurtions,
+     * send back new indexes to Alice
+     * @param shakingDatas
+     * @param m
+     * @param alpha
+     * @return
+     */
+    ShakeBits generateBits(List<ShakingData> shakingDatas,int m, int alpha){
+        double []connectedDatas = connectDatas(shakingDatas);
+        double []deltaMean = getDeltaMean(connectedDatas);
+        byte []tempBits = generateTempBits(connectedDatas, deltaMean, alpha);
+        return bitsByCooperate(tempBits,m);
+//        ExcurtionsWithIndexes excurtions = computeExcurtions(tempBits, m);
+//        int []indexesFromBob = askIndexesFromBob(excurtions.getIndexes());
+//        return getResultsBits(tempBits, indexesFromBob);
+    }
+
+    protected abstract ShakeBits bitsByCooperate(byte[] tempBits, int m);
+
+
+
+    private byte[] generateTempBits(double []connectedDatas,double[] deltaMean, int alpha) {
+        double mean = deltaMean[0],delta = deltaMean[1];
+        int len = connectedDatas.length;
+        double q_plus = mean + alpha*delta,q_minus = mean - alpha*delta;
+        byte []tempBits = new byte[len];
+        for (int i = 0; i < len; i++) {
+            double data = connectedDatas[i];
+            byte bit = 2;
+            if(data>q_plus){
+                bit = 1;
+            }else if(data<q_minus){
+                bit = 0;
+            }
+            tempBits[i] = bit;
+        }
+        return tempBits;
+    }
+
+    private double[] getDeltaMean(double[] connectedDatas) {
+        double mean =0, delta = 0;
+        int len = connectedDatas.length;
+        for (int i = 0; i < len; i++) {
+            mean += connectedDatas[i];
+        }
+        mean /= len;
+        for (int i = 0; i < len; i++) {
+            delta += Math.pow(connectedDatas[i]-mean,2);
+        }
+        delta = Math.sqrt(delta/len);
+        return new double[]{mean,delta};
+    }
+
+    private double[] connectDatas(List<ShakingData> shakingDatas) {
+        int len = shakingDatas.size();
+        double []connectedData = new double[len*3];
+        for (int i = 0; i < len; i++) {
+            double []cvData = shakingDatas.get(i).getConvertedData();
+            for (int j = 0; j < 3; j++) {
+                connectedData[j*len+i] = cvData[j];
+            }
+        }
+        return connectedData;
+    }
+
 
     ShakeBits generateBits(List<ShakingData> shakingDatas) {
         double alpha = 0.3;

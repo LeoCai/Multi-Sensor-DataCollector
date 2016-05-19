@@ -109,7 +109,7 @@ public class Master extends KeyExtractor {
         List<ShakingData> convertedData = transformByParameter(initMatrix, shakingDatas, shakingDatas.size());
         ShakeBits shakeBits = generateBits(convertedData);
         Log.d(TAG,"convertedDataSize:"+convertedData.size());
-        Log.d(TAG,"shakeBitsSize:"+shakeBits.getBits().size());
+        Log.d(TAG, "shakeBitsSize:" + shakeBits.getBits().size());
         startReconcilation(shakeBits, new ReconcilationEndCallBack() {
             @Override
             public void onReconcilationEnd(List<Byte> bitsList, double mismatchRate) {
@@ -117,8 +117,8 @@ public class Master extends KeyExtractor {
                 for (byte b : bitsList) {
                     logInfo += b;
                 }
-                logInfo+="\n";
-                logInfo+="MismatchRate:"+mismatchRate;
+                logInfo += "\n";
+                logInfo += "MismatchRate:" + mismatchRate;
                 setLogInfo(logInfo);
             }
         });
@@ -196,6 +196,67 @@ public class Master extends KeyExtractor {
         this.shakingDatas = shakingDatas;
     }
 
+
+    @Override
+    protected ShakeBits bitsByCooperate(byte[] tempBits, int m) {
+        ExcurtionsWithIndexes excurtions = computeExcurtions(tempBits, m);
+        int []indexesFromBob = askIndexesFromBob(excurtions.getIndexes());
+        return getResultsBits(tempBits, indexesFromBob);
+    }
+
+    private ShakeBits getResultsBits(byte[] tempBits, int[] indexesFromBob) {
+        int indexLen = indexesFromBob.length;
+        List<Byte> shakeBits = new ArrayList<>();
+        for (int i = 0; i < indexLen; i++) {
+            shakeBits.add(tempBits[indexesFromBob[i]]);
+        }
+        return new ShakeBits(shakeBits);
+    }
+
+    private ExcurtionsWithIndexes computeExcurtions(byte[] tempBits, int m) {
+        int len = tempBits.length;
+        int consecutive = 1;
+        double preBit = tempBits[0];
+        List<Byte> excutions = new ArrayList<>();
+        List<Integer> indexes = new ArrayList<>();
+        for (int i = 1; i < len; i++) {
+            byte cuBit = tempBits[i];
+            if(cuBit==preBit) consecutive++;
+            else {consecutive = 1; preBit = cuBit;}
+            if(consecutive==m) {
+                excutions.add(cuBit);
+                indexes.add((i-(m-1)/2));//TODO check　middle index
+            }
+        }
+        return new ExcurtionsWithIndexes(excutions,indexes);
+    }
+
+    private int[] askIndexesFromBob(int [] indexes) {
+        DataOutputStream dataOutputStream = new DataOutputStream(out);
+        int len = indexes.length;
+        try {
+            dataOutputStream.writeInt(len);
+            for (int index : indexes) {
+                dataOutputStream.writeInt(index);
+            }
+            dataOutputStream.flush();
+        }catch (IOException e){
+            e.printStackTrace();
+
+        }
+        DataInputStream dataInputStream = new DataInputStream(in);
+        int indexesFromBob[] = new int[0];
+        try {
+            int num = dataInputStream.readInt();
+            indexesFromBob = new int[num];
+            for (int i = 0; i < num; i++) {
+                indexesFromBob[i] = dataInputStream.readInt();
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return indexesFromBob;
+    }
 
     @Override
     protected boolean compareParity(byte[] bits, int subStart, int subEnd) throws IOException {
