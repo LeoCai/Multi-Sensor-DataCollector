@@ -28,8 +28,11 @@ import java.util.UUID;
  */
 public abstract class KeyExtractor extends Observable implements SensorEventListener, Observer {
 
+    protected static final double ALPHA_DEFAULT = 0.1;
+
     protected static final int TRAINNING_SIZE = 10;
     private static final String TAG = "KeyExtractor";
+    private static final int EXCUTION_CONSECUTIVE_NUM = 3;
 
     private boolean master;
     private int misMatch;
@@ -80,11 +83,11 @@ public abstract class KeyExtractor extends Observable implements SensorEventList
      * send indexes to Bob,check corresponding excurtions,
      * send back new indexes to Alice
      * @param shakingDatas
-     * @param m
      * @param alpha
      * @return
      */
-    ShakeBits generateBits(List<ShakingData> shakingDatas,int m, int alpha){
+    public ShakeBits generateBits(List<ShakingData> shakingDatas,double alpha){
+        int m = EXCUTION_CONSECUTIVE_NUM;
         double []connectedDatas = connectDatas(shakingDatas);
         double []deltaMean = getDeltaMean(connectedDatas);
         byte []tempBits = generateTempBits(connectedDatas, deltaMean, alpha);
@@ -98,7 +101,7 @@ public abstract class KeyExtractor extends Observable implements SensorEventList
 
 
 
-    private byte[] generateTempBits(double []connectedDatas,double[] deltaMean, int alpha) {
+    private byte[] generateTempBits(double []connectedDatas,double[] deltaMean, double alpha) {
         double mean = deltaMean[0],delta = deltaMean[1];
         int len = connectedDatas.length;
         double q_plus = mean + alpha*delta,q_minus = mean - alpha*delta;
@@ -143,7 +146,7 @@ public abstract class KeyExtractor extends Observable implements SensorEventList
     }
 
 
-    ShakeBits generateBits(List<ShakingData> shakingDatas) {
+    private ShakeBits generateBits(List<ShakingData> shakingDatas) {
         double alpha = 0.3;
         int windowSize = 5, excursion = 3;
         List<List<Byte>> bits = new ArrayList<>();
@@ -264,7 +267,14 @@ public abstract class KeyExtractor extends Observable implements SensorEventList
             bitsList.set(i, bits[i]);
         }
         reconcilationEndCallBack.onReconcilationEnd(bitsList, 1.0 * misMatch / bitsSize);
+        List<Byte> finalSecretBits = extractRandomness(bitsList);
     }
+
+    private List<Byte> extractRandomness(List<Byte> bitsList) {
+        RandomnessExtractor randomnessExtractor = new  RandomnessExtractor(bitsList);
+        return randomnessExtractor.getKey(bitsList);
+    }
+
 
     protected abstract boolean compareParity(byte[] bits, int subStart, int subMid) throws IOException;
 

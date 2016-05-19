@@ -101,8 +101,9 @@ public class Slave extends KeyExtractor {
         double[][] initMatrix = getInitMatrix(
                 shakingDatas.get(0).getGravityAccData(),
                 shakeParameters.getInitThetaSlave());
-        List<ShakingData> convertedDatas = transformByParameter(initMatrix,shakingDatas,shakingDatas.size());
-        ShakeBits shakeBits = generateBits(convertedDatas);
+        List<ShakingData> convertedDatas = transformByParameter(initMatrix, shakingDatas, shakingDatas.size());
+        double alpha = ALPHA_DEFAULT;
+        ShakeBits shakeBits = generateBits(convertedDatas,alpha);
         Log.d(TAG,"ConvertedDataSize:"+convertedDatas.size());
         Log.d(TAG,"ShakeBitsSize:"+shakeBits.getBits().size());
         startReconcilation(shakeBits, new ReconcilationEndCallBack() {

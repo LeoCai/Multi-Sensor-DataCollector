@@ -107,7 +107,8 @@ public class Master extends KeyExtractor {
                 shakingDatas.get(0).getGravityAccData(),
                 shakingParameters.getInitThetaMaster());
         List<ShakingData> convertedData = transformByParameter(initMatrix, shakingDatas, shakingDatas.size());
-        ShakeBits shakeBits = generateBits(convertedData);
+        double alpha = ALPHA_DEFAULT;
+        ShakeBits shakeBits = generateBits(convertedData,alpha);
         Log.d(TAG,"convertedDataSize:"+convertedData.size());
         Log.d(TAG, "shakeBitsSize:" + shakeBits.getBits().size());
         startReconcilation(shakeBits, new ReconcilationEndCallBack() {
