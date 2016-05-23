@@ -76,7 +76,7 @@ public class MasterTest extends TestCase {
         for (int i = 0; i < 50; i++) {
             shakingDatas.add(new ShakingData());
         }
-        ShakeBits bits = master.generateBits(shakingDatas);
-        Log.d(TAG,bits.toString());
+//        ShakeBits bits = master.generateBits(shakingDatas);
+//        Log.d(TAG,bits.toString());
     }
 }
