@@ -131,7 +131,7 @@ public class Slave extends KeyExtractor {
                 byte target = tempBits[index];
                 boolean hasExcution = true;
                 for (int j = index-(m-1)/2; j <= index+(m-1)/2; j++) {
-                    if(tempBits[j]!=target){
+                    if(tempBits[j]!=target||tempBits[j]==2){
                         hasExcution = false;
                         break;
                     }
@@ -142,10 +142,20 @@ public class Slave extends KeyExtractor {
             e.printStackTrace();
         }
         int indexLen = indexes.size();
+        DataOutputStream outputStream = new DataOutputStream(out);
         List<Byte> shakeBits = new ArrayList<>();
-        for (int i = 0; i < indexLen; i++) {
-            shakeBits.add(tempBits[indexes.get(i)]);
+        try {
+            outputStream.writeInt(indexLen);
+            for (int i = 0; i < indexLen; i++) {
+                int index = indexes.get(i);
+                outputStream.writeInt(index);
+                shakeBits.add(tempBits[indexes.get(i)]);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
         }
+
+
         return new ShakeBits(shakeBits);
     }
 

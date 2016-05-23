@@ -19,6 +19,10 @@ import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
 
+
+/**
+ * off-line test data
+ */
 public class TestMsgTransferActivity extends AppCompatActivity implements Observer {
     private static final String TAG = "TestMsg";
     private TextView tvLog;

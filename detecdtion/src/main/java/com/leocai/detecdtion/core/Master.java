@@ -222,9 +222,10 @@ public class Master extends KeyExtractor {
         List<Integer> indexes = new ArrayList<>();
         for (int i = 1; i < len; i++) {
             byte cuBit = tempBits[i];
-            if(cuBit==preBit) consecutive++;
+            if(cuBit==preBit&&cuBit!=2) consecutive++;
             else {consecutive = 1; preBit = cuBit;}
             if(consecutive==m) {
+                consecutive = 0;
                 excutions.add(cuBit);
                 indexes.add((i-(m-1)/2));//TODO check　middle index
             }
@@ -232,7 +233,7 @@ public class Master extends KeyExtractor {
         return new ExcurtionsWithIndexes(excutions,indexes);
     }
 
-    private int[] askIndexesFromBob(int [] indexes) {
+    private int[] askIndexesFromBob(int[] indexes) {
         DataOutputStream dataOutputStream = new DataOutputStream(out);
         int len = indexes.length;
         try {

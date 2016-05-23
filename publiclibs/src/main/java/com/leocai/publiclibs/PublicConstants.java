@@ -19,8 +19,9 @@ public class PublicConstants {
     public static final String  addressMeiZu = "22:22:9A:F5:63:F1";
 
     public static final String addressMI_424 = "58:44:98:48:5B:82";
+    public static final String addressMI_422 = "58:44:98:E2:9C:92";
     public static final String addressSAM_419 = "80:4E:81:C3:31:55";
-    public static final String MASTER_ADDRESS = addressMI_424;
+    public static final String MASTER_ADDRESS = addressMI_422;
 
 
 }
