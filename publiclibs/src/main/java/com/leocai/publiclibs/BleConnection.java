@@ -10,6 +10,8 @@ import java.io.OutputStream;
 
 /**
  * Created by leocai on 16-1-10.
+ * 蓝牙连接客户端
+ *
  */
 public class BleConnection {
 

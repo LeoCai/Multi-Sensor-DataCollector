@@ -9,6 +9,8 @@ import com.leocai.publiclibs.PublicConstants;
 import java.util.Observer;
 
 /**
+ * 传感器管理类
+ * 用于启动传感器，启动监听，传递事件给观察者
  * Created by leocai on 16-1-15.
  */
 public class MySensorManager {
@@ -16,6 +18,9 @@ public class MySensorManager {
     private Sensor mSensorAcc;
     private Sensor mSensorGYR;
     SensorDataWriter sensorDataWriter ;
+    /**
+     * 用于写文件的类
+     */
     SensorGlobalWriter sensorGlobalWriter;
     private Sensor mSensorMAG;
 

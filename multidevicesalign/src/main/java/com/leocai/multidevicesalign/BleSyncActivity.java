@@ -25,6 +25,13 @@ import java.util.Date;
 import java.util.Observable;
 import java.util.Observer;
 
+/**
+ * 主机从计公用的activity
+ * 主机先输入文件名，按master，
+ * 从机按client，主机显示连接并发送文件名给从机，从机初始化。
+ * 主机发送开始命令给从机，从机开始。
+ * 主机发送结束命令给从机，从机结束
+ */
 public class BleSyncActivity extends AppCompatActivity implements Observer {
 
     private static final String TAG = "BleSyncActivity";

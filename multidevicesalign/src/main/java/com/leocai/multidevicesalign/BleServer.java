@@ -15,6 +15,7 @@ import java.util.Observable;
 
 /**
  * Created by leocai on 16-1-15.
+ * 蓝牙主机，用于发指令控制从机开始和结束
  */
 public class BleServer extends Observable {
 
@@ -36,6 +37,9 @@ public class BleServer extends Observable {
         }
     }
 
+    /**
+     * 监听并发送文件名给其它从计
+     */
     void listen() {
         new Thread(new Runnable() {
             @Override
@@ -67,6 +71,9 @@ public class BleServer extends Observable {
 
     }
 
+    /**
+     * 发送开始指令
+     */
     void sendStartCommands() {
         for (OutputStream out : outs) {
             try {
@@ -78,6 +85,9 @@ public class BleServer extends Observable {
         }
     }
 
+    /**
+     * 发送结束指令
+     */
     public void sendStopCommands() {
         for (OutputStream out : outs) {
             try {

@@ -17,6 +17,7 @@ import java.util.Observable;
 
 /**
  * Created by leocai on 15-12-21.
+ * 握手监听器
  */
 public class ShakeDetector extends Observable  implements SensorEventListener {
     private static final int PEAK_NUM = 15;

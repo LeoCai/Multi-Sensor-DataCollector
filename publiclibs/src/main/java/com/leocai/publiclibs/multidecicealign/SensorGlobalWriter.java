@@ -16,6 +16,9 @@ import java.io.OutputStream;
 import java.util.Observable;
 
 /**
+ * 监听传感器数据，用于将传感器数据写到文件中
+ * 启动一个线程，一个传感器周期写一次数据
+ *
  * Created by leocai on 15-12-21.
  */
 public class SensorGlobalWriter extends Observable implements SensorEventListener {

@@ -24,6 +24,9 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * 测试磁力计的类
+ */
 public class MagTestActivity extends AppCompatActivity implements SensorEventListener {
 
     private static final int MAX_MAG_SIZE = 50;

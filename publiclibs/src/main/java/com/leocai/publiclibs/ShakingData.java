@@ -17,23 +17,60 @@ import transformation.MatrixUtils;
 /**
  * Remenber to sync format when update members
  * Created by leocai on 15-12-31.
+ * 传感器数据封装
  */
 public class ShakingData implements Serializable, Cloneable {
 
     private static final long serialVersionUID = -6091530420906090649L;
     private static final String TAG = "ShakingData";
 
+    /**
+     * 索引号，暂时没用
+     */
     private int index;
+    /**
+     * 线性加速度
+     */
     private double linearAccData[];
+    /**
+     * 陀螺仪
+     */
     private double gyrData[];
+    /**
+     * 时间戳
+     */
     private long timeStamp;
+    /**
+     * 与上次数据的事件差
+     */
     private double dt;
+    /**
+     * 重力加速度数据
+     */
     private double[] gravityAccData;
+    /**
+     * 合加速度
+     */
     private double resultantAccData;
+    /**
+     * 全局加速度，有问题
+     */
     private double[] convertedData;
+    /**
+     * 磁力计
+     */
     private double[] magnetData;
+    /**
+     * 原始加速度
+     */
     private double[] accData;
+    /**
+     * 旋转矩阵，可能有问题
+     */
     private float[] rotationMatrix = new float[9];
+    /**
+     * 倾斜矩阵
+     */
     private float[] inclimentMatrix = new float[9];
 
     public ShakingData(double[] linearAccData, double[] gyrData, int index, double dt) {
@@ -43,6 +80,10 @@ public class ShakingData implements Serializable, Cloneable {
         this.dt = dt;
     }
 
+    /**
+     * 初始化，并写ｃｓｖ头
+     * @param dataLine
+     */
     public ShakingData(String dataLine) {
         String vals[] = dataLine.split(",");
         int cuIndex = 0;
@@ -132,6 +173,10 @@ public class ShakingData implements Serializable, Cloneable {
         copy(shakingData);
     }
 
+    /**
+     * 转换成字节
+     * @return
+     */
     public byte[] getBytes() {
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
         DataOutputStream dataInputStream = new DataOutputStream(outputStream);

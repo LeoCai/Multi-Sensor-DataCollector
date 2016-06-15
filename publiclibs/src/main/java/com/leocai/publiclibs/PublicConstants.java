@@ -3,6 +3,9 @@ package com.leocai.publiclibs;
 import java.util.UUID;
 
 /**
+ * 一些公有的全局变量
+ * 包括传感器周期
+ * 蓝牙地址等
  * Created by leocai on 16-1-5.
  */
 public class PublicConstants {
@@ -21,6 +24,9 @@ public class PublicConstants {
     public static final String addressMI_424 = "58:44:98:48:5B:82";
     public static final String addressMI_422 = "58:44:98:E2:9C:92";
     public static final String addressSAM_419 = "80:4E:81:C3:31:55";
+    /**
+     * 控制主机地址
+     */
     public static final String MASTER_ADDRESS = addressMI_422;
 
 

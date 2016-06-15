@@ -4,9 +4,15 @@ import java.util.Arrays;
 
 /**
  * Created by leocai on 15-9-29.
+ * 矩阵的一些实用函数
  */
 public class MatrixUtils {
 
+    /**
+     * 矩阵转置
+     * @param mat
+     * @return
+     */
     public static double[][] T(double[][] mat){
         double[][] matrix= new double[mat[0].length][mat.length];
         for (int i = 0; i < mat.length; i++) {
@@ -17,6 +23,11 @@ public class MatrixUtils {
         return matrix;
     }
 
+    /**
+     * 将ｆｌｏａｔ数组转换成矩阵
+     * @param fv
+     * @return
+     */
     public static double[][] floatArrayToMatrix(float[] fv) {
         double[][] mat = new double[fv.length / 3][3];
         for (int i = 0; i < mat.length; i++) {
@@ -27,6 +38,11 @@ public class MatrixUtils {
         return mat;
     }
 
+    /**
+     * 矩阵转换成float数组
+     * @param mat
+     * @return
+     */
     public static float[] matrixToFloatArray(double[][] mat){
         float [] farray = new float[mat.length*3];
         for (int i = 0; i < mat.length; i++) {
@@ -38,7 +54,12 @@ public class MatrixUtils {
     }
 
 
-
+    /**
+     * 矩阵相乘
+     * @param matl
+     * @param matr
+     * @return
+     */
     public static double[][] multiply(double[][] matl, double[][] matr) {
         int row = matl.length;
         int column = matr[0].length;
@@ -80,6 +101,12 @@ public class MatrixUtils {
         System.out.print(content);
     }
 
+    /**
+     * 矩阵数乘
+     * @param num
+     * @param mat
+     * @return
+     */
     public static double[][] numMultiply(double num, double[][] mat) {
         int row = mat.length;
         int column = mat[0].length;
@@ -92,6 +119,12 @@ public class MatrixUtils {
         return results;
     }
 
+    /**
+     * 矩阵相加
+     * @param mat1
+     * @param mat2
+     * @return
+     */
     public static double[][] plus(double[][] mat1, double[][] mat2) {
         int row = mat1.length;
         int column = mat1[0].length;
@@ -105,11 +138,23 @@ public class MatrixUtils {
     }
 
     //TODO order
+
+    /**
+     * 数组转矩阵
+     * @param vector
+     * @return
+     */
     public static double[][] convertVectorToMatrix(double[] vector) {
         return new double[][]{{vector[0]},{vector[1]},{vector[2]}};
     }
 
     //TODO orderTest
+
+    /**
+     * 矩阵转数组
+     * @param matrix
+     * @return
+     */
     public static double[] convertMatrixToVector(double[][] matrix) {
         return new double[]{matrix[0][0],matrix[1][0],matrix[2][0]};
     }

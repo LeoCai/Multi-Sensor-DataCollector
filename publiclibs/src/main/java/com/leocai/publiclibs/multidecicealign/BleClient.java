@@ -10,15 +10,29 @@ import java.io.IOException;
 import java.io.InputStream;
 
 /**
+ * 从设备客户端
  * Created by leocai on 16-1-15.
  */
 public class BleClient {
 
-    private static final String ADDRESS = PublicConstants.addressSum;
+    /**
+     * 此处可能有问题
+     * 链接主机的地址
+     */
+    private static final String ADDRESS = PublicConstants.MASTER_ADDRESS;
     InputStream in;
 
     BleConnection bleConnection = new BleConnection();
 
+    /**
+     * 用蓝牙连结到主机
+     * @param connectedCallBack
+     * 连接成功后的回调函数
+     * @param startCallBack
+     * 按下开始的回调函数
+     * @param stopCallBack
+     * 按下停止的回调函数
+     */
     public void connect(final ConnectedCallBack connectedCallBack,final StartCallBack startCallBack, final StopCallBack stopCallBack){
         bleConnection.connect(ADDRESS, new ConnectedCallBack() {
             @Override
@@ -31,6 +45,13 @@ public class BleClient {
 
     }
 
+    /**
+     * 调用开始，开始进程完成后调用结束事件
+     * @param startCallBack
+     * 开始回调函数
+     * @param stopCallBack
+     * 结束回调函数
+     */
     public void waitForCommand(StartCallBack startCallBack, final StopCallBack stopCallBack){
         byte[] buffer = new byte[1];
         try {

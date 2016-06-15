@@ -3,6 +3,7 @@ package com.leocai.multidevicesalign;
 import java.util.UUID;
 
 /**
+ * 独立项目的公有变量
  * Created by leocai on 16-1-5.
  */
 public class Constants {

@@ -99,8 +99,6 @@ public abstract class KeyExtractor extends Observable implements SensorEventList
 
     protected abstract ShakeBits bitsByCooperate(byte[] tempBits, int m);
 
-
-
     private byte[] generateTempBits(double []connectedDatas,double[] deltaMean, double alpha) {
         double mean = deltaMean[0],delta = deltaMean[1];
         int len = connectedDatas.length;
