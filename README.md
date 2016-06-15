@@ -5,7 +5,7 @@ detection:buld trust via physical handshake
 
 include project of space sync：
 
-ps: you need to change blue master address in public constants
+ps: you need to change  master ble address in public constants
 
 publiclibs: public lib of constants, sensor data manager, ble connection class
 
