@@ -2,9 +2,6 @@ package com.leocai.publiclibs.multidecicealign;
 
 import com.leocai.publiclibs.BleConnection;
 import com.leocai.publiclibs.ConnectedCallBack;
-import com.leocai.publiclibs.PublicConstants;
-import com.leocai.publiclibs.multidecicealign.StartCallBack;
-import com.leocai.publiclibs.multidecicealign.StopCallBack;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -19,7 +16,7 @@ public class BleClient {
      * 此处可能有问题
      * 链接主机的地址
      */
-    private static final String ADDRESS = PublicConstants.MASTER_ADDRESS;
+    private String masterAddress;
     InputStream in;
 
     BleConnection bleConnection = new BleConnection();
@@ -34,7 +31,7 @@ public class BleClient {
      * 按下停止的回调函数
      */
     public void connect(final ConnectedCallBack connectedCallBack,final StartCallBack startCallBack, final StopCallBack stopCallBack){
-        bleConnection.connect(ADDRESS, new ConnectedCallBack() {
+        bleConnection.connect(masterAddress, new ConnectedCallBack() {
             @Override
             public void onConnected(InputStream in ) {
                 connectedCallBack.onConnected(in);
@@ -44,6 +41,8 @@ public class BleClient {
         });
 
     }
+
+
 
     /**
      * 调用开始，开始进程完成后调用结束事件
@@ -74,5 +73,7 @@ public class BleClient {
         }
     }
 
-
+    public BleClient(String masterAddress) {
+        this.masterAddress = masterAddress;
+    }
 }

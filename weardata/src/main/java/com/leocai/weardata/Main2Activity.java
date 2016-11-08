@@ -48,7 +48,7 @@ public class Main2Activity extends Activity {
                         String fileName = simpleDateFormat.format(new Date())+".csv";
                         mySensorManager.setFileName(fileName);
                         mySensorManager.startSensor();
-                        bleClient = new BleClient();
+                        bleClient = new BleClient("");
                         bleClient.connect(new ConnectedCallBack() {
                             @Override
                             public void onConnected(InputStream out) {

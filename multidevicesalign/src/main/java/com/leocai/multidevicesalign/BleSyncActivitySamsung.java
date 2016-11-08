@@ -20,6 +20,7 @@ import java.io.InputStream;
 import java.util.Observable;
 import java.util.Observer;
 
+@Deprecated
 public class BleSyncActivitySamsung extends AppCompatActivity implements Observer {
 
     private static final String TAG = "BleSyncActivity";
@@ -88,7 +89,7 @@ public class BleSyncActivitySamsung extends AppCompatActivity implements Observe
                 btnStart.setEnabled(false);
                 btnClient.setEnabled(false);
 
-                bleClient = new BleClient();
+                bleClient = new BleClient("");
                 bleClient.connect(new ConnectedCallBack() {
                     @Override
                     public void onConnected(InputStream in) {

@@ -27,7 +27,7 @@ public class PublicConstants {
     /**
      * 控制主机地址
      */
-    public static final String MASTER_ADDRESS = addressMI_422;
+    public static final String MASTER_ADDRESS = "58:44:98:48:5B:82";
 
 
 }

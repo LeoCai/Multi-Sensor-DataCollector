@@ -1,5 +1,7 @@
 package com.leocai.multidevicesalign;
 
+import android.bluetooth.BluetoothAdapter;
+import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -9,6 +11,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.leocai.publiclibs.ConnectedCallBack;
 import com.leocai.publiclibs.multidecicealign.BleClient;
@@ -21,7 +24,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -35,6 +37,9 @@ import java.util.Observer;
 public class BleSyncActivity extends AppCompatActivity implements Observer {
 
     private static final String TAG = "BleSyncActivity";
+    private static final String PREF_KEY = "address";
+    private static final String PREFS_NAME = "MasterAddress";
+
     TextView tv_log;
 
     BleServer bleServer;
@@ -48,18 +53,23 @@ public class BleSyncActivity extends AppCompatActivity implements Observer {
     Button btnStart;
 
     EditText etFileName;
+    EditText edt_masterAddress;
+    private String masterAddress;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_ble_sync);
         tv_log = (TextView) findViewById(R.id.tv_log);
-        Log.d(TAG,"onCreate");
-        btnMaster = (Button)findViewById(R.id.btn_master);
-        btnClient = (Button)findViewById(R.id.btn_client);
+        Log.d(TAG, "onCreate");
+        btnMaster = (Button) findViewById(R.id.btn_master);
+        btnClient = (Button) findViewById(R.id.btn_client);
         btnStart = (Button) findViewById(R.id.btn_start);
-        etFileName = (EditText)findViewById(R.id.et_filename);
+        etFileName = (EditText) findViewById(R.id.et_filename);
+        edt_masterAddress = (EditText) findViewById(R.id.edt_masterAddress);
         btnClient.setEnabled(true);
+        btnStart.setEnabled(false);
 //        etFileName.setOnFocusChangeListener(new View.OnFocusChangeListener() {
 //            @Override
 //            public void onFocusChange(View v, boolean hasFocus) {
@@ -78,22 +88,49 @@ public class BleSyncActivity extends AppCompatActivity implements Observer {
 
 //        Toast.makeText(this, "onCreat", Toast.LENGTH_SHORT).show();
 
-        findViewById(R.id.btn_master).setOnClickListener(new View.OnClickListener() {
+        masterBtnAction();
+        clientBtnAction();
+        startBtnAction();
+
+        masterAddress = readMasterAddress();
+        edt_masterAddress.setText(masterAddress);
+    }
+
+    private void startBtnAction() {
+        findViewById(R.id.btn_start).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showLog("Master");
-                bleServer = new BleServer();
-                bleServer.setFileName(etFileName.getText().toString());
-                bleServer.addObserver(BleSyncActivity.this);
-                bleServer.listen();
-                btnClient.setEnabled(false);
-                btnMaster.setEnabled(false);
-                etFileName.setEnabled(false);
+                if(bleServer==null){
+                    toastError("Not Connected Yet");
+                    return;
+                }
+                if (!start) {
+                    start = true;
+                    bleServer.sendStartCommands();
+                    ((Button) v).setText("Stop");
+                } else {
+                    start = false;
+                    bleServer.sendStopCommands();
+                    ((Button) v).setText("Start");
+                }
             }
         });
+    }
+
+    private void clientBtnAction() {
         findViewById(R.id.btn_client).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (!isBlutoothOpened()) {
+                    toastError("Blutooth Not Open");
+                    return;
+                }
+                masterAddress = edt_masterAddress.getText().toString();
+                if (masterAddress == null || masterAddress.equals("")) {
+                    toastError("Please input master address first");
+                    return;
+                }
+                saveMasterAddress(masterAddress);
                 showLog("Client");
                 btnMaster.setEnabled(false);
                 btnStart.setEnabled(false);
@@ -104,7 +141,7 @@ public class BleSyncActivity extends AppCompatActivity implements Observer {
 //                mySensorManager.setFileName(fileName + ".csv");
                 mySensorManager.startSensor();
 
-                bleClient = new BleClient();
+                bleClient = new BleClient(masterAddress);
                 bleClient.connect(new ConnectedCallBack() {
                     @Override
                     public void onConnected(InputStream in) {
@@ -138,21 +175,69 @@ public class BleSyncActivity extends AppCompatActivity implements Observer {
                 });
             }
         });
+    }
 
-        findViewById(R.id.btn_start).setOnClickListener(new View.OnClickListener() {
+    private void masterBtnAction() {
+        findViewById(R.id.btn_master).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (!start) {
-                    start = true;
-                    bleServer.sendStartCommands();
-                    ((Button) v).setText("Stop");
-                } else {
-                    start = false;
-                    bleServer.sendStopCommands();
-                    ((Button) v).setText("Start");
+                if (!isBlutoothOpened()) {
+                    toastError("Blutooth Not Open");
+                    return;
                 }
+                String fileName = etFileName.getText().toString();
+                if(fileName.equals("")){
+                    toastError("Please input fileName first");
+                    return;
+                }
+                showLog("Master");
+                bleServer = new BleServer();
+                bleServer.setFileName(etFileName.getText().toString());
+                bleServer.addObserver(BleSyncActivity.this);
+                bleServer.listen();
+                btnClient.setEnabled(false);
+                btnMaster.setEnabled(false);
+                etFileName.setEnabled(false);
             }
         });
+    }
+
+    private void toastError(final String msg) {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                Toast.makeText(BleSyncActivity.this, msg, Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    private boolean isBlutoothOpened() {
+        BluetoothAdapter mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
+        if (mBluetoothAdapter == null) {
+            return false;
+        } else {
+            if (!mBluetoothAdapter.isEnabled()) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    /**
+     * 存取主机地址
+     *
+     * @param masterAddress
+     */
+    private void saveMasterAddress(String masterAddress) {
+        SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
+        SharedPreferences.Editor editor = settings.edit();
+        editor.putString(PREF_KEY, masterAddress);
+        editor.commit();
+    }
+
+    private String readMasterAddress() {
+        SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
+        return settings.getString(PREF_KEY, "");
     }
 
     private void showLog(final String info) {
@@ -171,7 +256,7 @@ public class BleSyncActivity extends AppCompatActivity implements Observer {
         super.onStop();
 //        if (mySensorManager != null)
 //            mySensorManager.stop();
-        Log.d(TAG,"onStop");
+        Log.d(TAG, "onStop");
 //        Toast.makeText(this, "onStop", Toast.LENGTH_SHORT).show();
     }
 
@@ -201,8 +286,8 @@ public class BleSyncActivity extends AppCompatActivity implements Observer {
     protected void onDestroy() {
         super.onDestroy();
         Log.d(TAG, "onDestroy");
-        if(mySensorManager!=null)
-        mySensorManager.stop();
+        if (mySensorManager != null)
+            mySensorManager.stop();
 //        Toast.makeText(this, "onDestroy", Toast.LENGTH_SHORT).show();
 
     }
@@ -234,7 +319,11 @@ public class BleSyncActivity extends AppCompatActivity implements Observer {
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                tv_log.setText((int)data+" clients connected");
+                int numOfClinet = (int) data;
+                tv_log.setText(numOfClinet + " clients connected");
+                if(numOfClinet >= 1){
+                    btnStart.setEnabled(true);
+                }
             }
         });
     }
