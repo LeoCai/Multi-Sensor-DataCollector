@@ -7,7 +7,7 @@
 
     tools:context="com.leocai.multidevicesalign.BleSyncActivity">
 
-    <TextView android:text="@string/hello_world" android:layout_width="match_parent"
+    <TextView android:text="INFO" android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
         android:gravity="center"
@@ -46,18 +46,30 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/et_filename"
-        android:hint="FileName"
+        android:hint="File Name"
         android:layout_below="@+id/btn_start"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="51dp"
         android:textSize="30sp"
         android:gravity="center" />
 
+
+
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/edt_masterAddress"
+        android:layout_below="@+id/et_filename"
         android:hint="Master Address"
+        android:gravity="center"
+        android:layout_centerHorizontal="true" />
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/edt_sensor_frequency"
+        android:hint="Sensor Frequency (HZ) (default 50HZ)"
+        android:gravity="center"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true" />
 

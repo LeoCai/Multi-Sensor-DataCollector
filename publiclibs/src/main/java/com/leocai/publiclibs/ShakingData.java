@@ -9,7 +9,9 @@ import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.Serializable;
+import java.text.SimpleDateFormat;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.Random;
 
 import transformation.MatrixUtils;
@@ -382,9 +384,8 @@ public class ShakingData implements Serializable, Cloneable {
             info.append(",");
         }
 
-        info.append(resultantAccData);
-        info.append(",");
-        info.append(timeStamp);
+        SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
+        info.append(sdf.format(new Date(timeStamp)));
         info.append(",");
         info.append(dt);
         info.append("\n");
@@ -400,6 +401,9 @@ public class ShakingData implements Serializable, Cloneable {
         return magnetData;
     }
 
+    /**
+     * 全局坐标转换
+     */
     public void transform() {
         if(gravityAccData == null || magnetData == null) return;
         SensorManager.getRotationMatrix(rotationMatrix, inclimentMatrix,

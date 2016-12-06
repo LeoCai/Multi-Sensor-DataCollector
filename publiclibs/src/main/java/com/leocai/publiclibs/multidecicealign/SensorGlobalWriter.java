@@ -13,6 +13,8 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Observable;
 
 /**
@@ -111,22 +113,8 @@ public class SensorGlobalWriter extends Observable implements SensorEventListene
     public void onSensorChanged(SensorEvent event) {
         Sensor sensor = event.sensor;
         if (sensor.getType() == Sensor.TYPE_ACCELEROMETER) {
-
-            final double alpha = 0.8;
-
-            // Isolate the force of gravity with the low-pass filter.
-            gravity[0] = alpha * gravity[0] + (1 - alpha) * event.values[0];
-            gravity[1] = alpha * gravity[1] + (1 - alpha) * event.values[1];
-            gravity[2] = alpha * gravity[2] + (1 - alpha) * event.values[2];
-
-            // Remove the gravity contribution with the high-pass filter.
-            linear_acceleration[0] = event.values[0] - gravity[0];
-            linear_acceleration[1] = event.values[1] - gravity[1];
-            linear_acceleration[2] = event.values[2] - gravity[2];
             cuShakingData.setAccData(new double[]{event.values[0],event.values[1],event.values[2]});
-            cuShakingData.setLinearAccData(linear_acceleration);
-            cuShakingData.setGravityAccData(gravity);
-            cuShakingData.setTimeStamp(event.timestamp);
+            cuShakingData.setTimeStamp(new Date().getTime());
             if (preTimestamp != 0)
                 cuShakingData.setDt(1.0 * (event.timestamp - preTimestamp) / 1000000000);
             preTimestamp = event.timestamp;
@@ -136,6 +124,10 @@ public class SensorGlobalWriter extends Observable implements SensorEventListene
 //            Log.d(TAG, "" + event.timestamp);
         } else if(sensor.getType() == Sensor.TYPE_MAGNETIC_FIELD){
             cuShakingData.setMagnetData(new double[]{event.values[0], event.values[1], event.values[2]});
+        } else if(sensor.getType() == Sensor.TYPE_GRAVITY){
+            cuShakingData.setGravityAccData(new double[]{event.values[0], event.values[1], event.values[2]});
+        } else if(sensor.getType() == Sensor.TYPE_LINEAR_ACCELERATION){
+            cuShakingData.setLinearAccData(new double[]{event.values[0], event.values[1], event.values[2]});
         }
     }
 

@@ -37,8 +37,9 @@ import java.util.Observer;
 public class BleSyncActivity extends AppCompatActivity implements Observer {
 
     private static final String TAG = "BleSyncActivity";
-    private static final String PREF_KEY = "address";
-    private static final String PREFS_NAME = "MasterAddress";
+    private static final String PREF_ADDRESS_KEY = "master_address";
+    private static final String PREFS_NAME = "pref";
+    private static final String PREF_FREQUNCY_KEY = "frequncy";
 
     TextView tv_log;
 
@@ -54,7 +55,9 @@ public class BleSyncActivity extends AppCompatActivity implements Observer {
 
     EditText etFileName;
     EditText edt_masterAddress;
+    EditText edt_frequency;
     private String masterAddress;
+    private int frequency;
 
 
     @Override
@@ -68,6 +71,7 @@ public class BleSyncActivity extends AppCompatActivity implements Observer {
         btnStart = (Button) findViewById(R.id.btn_start);
         etFileName = (EditText) findViewById(R.id.et_filename);
         edt_masterAddress = (EditText) findViewById(R.id.edt_masterAddress);
+        edt_frequency = (EditText) findViewById(R.id.edt_sensor_frequency);
         btnClient.setEnabled(true);
         btnStart.setEnabled(false);
 //        etFileName.setOnFocusChangeListener(new View.OnFocusChangeListener() {
@@ -94,7 +98,11 @@ public class BleSyncActivity extends AppCompatActivity implements Observer {
 
         masterAddress = readMasterAddress();
         edt_masterAddress.setText(masterAddress);
+        frequency = readFrequncy();
+        edt_frequency.setText(frequency+"");
     }
+
+
 
     private void startBtnAction() {
         findViewById(R.id.btn_start).setOnClickListener(new View.OnClickListener() {
@@ -136,6 +144,9 @@ public class BleSyncActivity extends AppCompatActivity implements Observer {
                 btnStart.setEnabled(false);
                 btnClient.setEnabled(false);
                 mySensorManager = new MySensorManager(BleSyncActivity.this);
+                frequency = Integer.parseInt(edt_frequency.getText().toString());
+                saveFrequncy(frequency);
+                mySensorManager.setFrequency(frequency);
                 SimpleDateFormat simpleDateFormat = new SimpleDateFormat("HH_mm_ss_SS");
 //                String fileName = simpleDateFormat.format(new Date());
 //                mySensorManager.setFileName(fileName + ".csv");
@@ -231,13 +242,25 @@ public class BleSyncActivity extends AppCompatActivity implements Observer {
     private void saveMasterAddress(String masterAddress) {
         SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
         SharedPreferences.Editor editor = settings.edit();
-        editor.putString(PREF_KEY, masterAddress);
+        editor.putString(PREF_ADDRESS_KEY, masterAddress);
         editor.commit();
     }
 
     private String readMasterAddress() {
         SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
-        return settings.getString(PREF_KEY, "");
+        return settings.getString(PREF_ADDRESS_KEY, "50:A7:2B:7F:B7:2F");
+    }
+
+    private void saveFrequncy(int frequency){
+        SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
+        SharedPreferences.Editor editor = settings.edit();
+        editor.putInt(PREF_FREQUNCY_KEY, frequency);
+        editor.commit();
+    }
+
+    private int readFrequncy() {
+        SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
+        return settings.getInt(PREF_FREQUNCY_KEY, 50);
     }
 
     private void showLog(final String info) {

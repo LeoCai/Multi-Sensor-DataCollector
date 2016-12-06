@@ -19,11 +19,9 @@ import java.util.Observable;
  */
 public class BleServer extends Observable {
 
-
     List<OutputStream> outs = new ArrayList<>();
     List<BluetoothSocket> sockets = new ArrayList<>();
     private BluetoothServerSocket mmServerSocket;
-
 
     private String fileName;
 

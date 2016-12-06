@@ -17,12 +17,14 @@ public class MySensorManager {
     private SensorManager mSensorManager;
     private Sensor mSensorAcc;
     private Sensor mSensorGYR;
-    SensorDataWriter sensorDataWriter ;
+    SensorDataWriter sensorDataWriter;
     /**
      * 用于写文件的类
      */
     SensorGlobalWriter sensorGlobalWriter;
     private Sensor mSensorMAG;
+
+    private int frequency;
 
     public MySensorManager(Context context) {
         mSensorManager = (SensorManager) context.getSystemService(Context.SENSOR_SERVICE);
@@ -32,10 +34,11 @@ public class MySensorManager {
     }
 
     public void startSensor() {
+        if(frequency==0) frequency = (int) (1000/ PublicConstants.SENSOPR_PERIOD);
         sensorGlobalWriter = new SensorGlobalWriter();
-        mSensorManager.registerListener(sensorGlobalWriter, mSensorAcc, (int) (PublicConstants.SENSOPR_PERIOD * 1000)); // 根据频率调整
-        mSensorManager.registerListener(sensorGlobalWriter, mSensorGYR, (int) (PublicConstants.SENSOPR_PERIOD * 1000));
-        mSensorManager.registerListener(sensorGlobalWriter, mSensorMAG, (int) (PublicConstants.SENSOPR_PERIOD * 1000));
+        mSensorManager.registerListener(sensorGlobalWriter, mSensorAcc, (int) (1000 / frequency * 1000)); // 根据频率调整
+        mSensorManager.registerListener(sensorGlobalWriter, mSensorGYR, (int) (1000 / frequency * 1000));
+        mSensorManager.registerListener(sensorGlobalWriter, mSensorMAG, (int) (1000 / frequency * 1000));
     }
 
     public void startDetection() {
@@ -49,11 +52,19 @@ public class MySensorManager {
         sensorGlobalWriter.close();
     }
 
-    public void setFileName(String fileName){
+    public void setFileName(String fileName) {
         sensorGlobalWriter.setFileName(fileName);
     }
 
-    public void addObserver(Observer observer){
+    public void addObserver(Observer observer) {
         sensorGlobalWriter.addObserver(observer);
+    }
+
+    public int getFrequency() {
+        return frequency;
+    }
+
+    public void setFrequency(int frequency) {
+        this.frequency = frequency;
     }
 }
