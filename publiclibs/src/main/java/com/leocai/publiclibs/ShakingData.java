@@ -383,7 +383,8 @@ public class ShakingData implements Serializable, Cloneable {
                 info.append(this.convertedData[i]);
             info.append(",");
         }
-
+        info.append(resultantAccData);
+        info.append(",");
         SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
         info.append(sdf.format(new Date(timeStamp)));
         info.append(",");

@@ -17,12 +17,14 @@ public class MySensorManager {
     private SensorManager mSensorManager;
     private Sensor mSensorAcc;
     private Sensor mSensorGYR;
+    private Sensor mSensorMAG;
+    private Sensor mSensorGravity;
+    private Sensor mSensorLinear;
     SensorDataWriter sensorDataWriter;
     /**
      * 用于写文件的类
      */
     SensorGlobalWriter sensorGlobalWriter;
-    private Sensor mSensorMAG;
 
     private int frequency;
 
@@ -31,6 +33,8 @@ public class MySensorManager {
         mSensorAcc = mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
         mSensorGYR = mSensorManager.getDefaultSensor(Sensor.TYPE_GYROSCOPE);
         mSensorMAG = mSensorManager.getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD);
+        mSensorGravity = mSensorManager.getDefaultSensor(Sensor.TYPE_GRAVITY);
+        mSensorLinear = mSensorManager.getDefaultSensor(Sensor.TYPE_LINEAR_ACCELERATION);
     }
 
     public void startSensor() {
@@ -39,6 +43,8 @@ public class MySensorManager {
         mSensorManager.registerListener(sensorGlobalWriter, mSensorAcc, (int) (1000 / frequency * 1000)); // 根据频率调整
         mSensorManager.registerListener(sensorGlobalWriter, mSensorGYR, (int) (1000 / frequency * 1000));
         mSensorManager.registerListener(sensorGlobalWriter, mSensorMAG, (int) (1000 / frequency * 1000));
+        mSensorManager.registerListener(sensorGlobalWriter, mSensorGravity, (int) (1000 / frequency * 1000));
+        mSensorManager.registerListener(sensorGlobalWriter, mSensorLinear, (int) (1000 / frequency * 1000));
     }
 
     public void startDetection() {
@@ -49,6 +55,8 @@ public class MySensorManager {
         mSensorManager.unregisterListener(sensorGlobalWriter, mSensorAcc);
         mSensorManager.unregisterListener(sensorGlobalWriter, mSensorGYR);
         mSensorManager.unregisterListener(sensorGlobalWriter, mSensorMAG);
+        mSensorManager.unregisterListener(sensorGlobalWriter, mSensorGravity);
+        mSensorManager.unregisterListener(sensorGlobalWriter, mSensorLinear);
         sensorGlobalWriter.close();
     }
 
