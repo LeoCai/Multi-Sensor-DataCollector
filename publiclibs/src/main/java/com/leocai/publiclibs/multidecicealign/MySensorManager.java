@@ -52,6 +52,10 @@ public class MySensorManager {
     }
 
     public void stop() {
+        sensorGlobalWriter.close();
+    }
+
+    public void close(){
         mSensorManager.unregisterListener(sensorGlobalWriter, mSensorAcc);
         mSensorManager.unregisterListener(sensorGlobalWriter, mSensorGYR);
         mSensorManager.unregisterListener(sensorGlobalWriter, mSensorMAG);

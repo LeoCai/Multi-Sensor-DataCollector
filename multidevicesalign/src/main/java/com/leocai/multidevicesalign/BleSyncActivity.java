@@ -15,6 +15,7 @@ import android.widget.Toast;
 
 import com.leocai.publiclibs.ConnectedCallBack;
 import com.leocai.publiclibs.multidecicealign.BleClient;
+import com.leocai.publiclibs.multidecicealign.FileInitCallBack;
 import com.leocai.publiclibs.multidecicealign.MySensorManager;
 import com.leocai.publiclibs.multidecicealign.StartCallBack;
 import com.leocai.publiclibs.multidecicealign.StopCallBack;
@@ -23,6 +24,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
 import java.text.SimpleDateFormat;
 import java.util.Observable;
 import java.util.Observer;
@@ -40,6 +42,9 @@ public class BleSyncActivity extends AppCompatActivity implements Observer {
     private static final String PREF_ADDRESS_KEY = "master_address";
     private static final String PREFS_NAME = "pref";
     private static final String PREF_FREQUNCY_KEY = "frequncy";
+    private static final int STOPPED = 0;
+    private static final int FILE_INITED = 1;
+    private static final int STARTING = 2;
 
     TextView tv_log;
 
@@ -47,7 +52,7 @@ public class BleSyncActivity extends AppCompatActivity implements Observer {
     BleClient bleClient;
 
     MySensorManager mySensorManager;
-    private boolean start;
+    private int start;
 
     Button btnMaster;
     Button btnClient;
@@ -74,23 +79,6 @@ public class BleSyncActivity extends AppCompatActivity implements Observer {
         edt_frequency = (EditText) findViewById(R.id.edt_sensor_frequency);
         btnClient.setEnabled(true);
         btnStart.setEnabled(false);
-//        etFileName.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-//            @Override
-//            public void onFocusChange(View v, boolean hasFocus) {
-//                if(hasFocus){
-//                    Log.d(TAG, "Focus");
-//                }else{
-//                    Log.d(TAG,"UNFOUCUS");
-//                    mySensorManager = new MySensorManager(BleSyncActivity.this);
-//                    mySensorManager.setFileName(etFileName.getText().toString()+".txt");
-//                    mySensorManager.startSensor();
-//                    btnClient.setEnabled(true);
-//                }
-//
-//            }
-//        });
-
-//        Toast.makeText(this, "onCreat", Toast.LENGTH_SHORT).show();
 
         masterBtnAction();
         clientBtnAction();
@@ -112,14 +100,29 @@ public class BleSyncActivity extends AppCompatActivity implements Observer {
                     toastError("Not Connected Yet");
                     return;
                 }
-                if (!start) {
-                    start = true;
-                    bleServer.sendStartCommands();
-                    ((Button) v).setText("Stop");
-                } else {
-                    start = false;
-                    bleServer.sendStopCommands();
-                    ((Button) v).setText("Start");
+                switch (start){
+                    case STOPPED:
+                        String fileName = etFileName.getText().toString();
+                        if(fileName.equals("")){
+                            toastError("Please input fileName first");
+                            return;
+                        }
+                        bleServer.sendFileCommands(fileName);
+                        ((Button) v).setText("START");
+                        start = FILE_INITED;
+                        etFileName.setEnabled(false);
+                        break;
+                    case FILE_INITED:
+                        bleServer.sendStartCommands();
+                        ((Button) v).setText("STOP");
+                        start = STARTING;
+                        break;
+                    case STARTING:
+                        bleServer.sendStopCommands();
+                        ((Button) v).setText("INIT FILE");
+                        start = STOPPED;
+                        etFileName.setEnabled(true);
+                        break;
                 }
             }
         });
@@ -157,6 +160,10 @@ public class BleSyncActivity extends AppCompatActivity implements Observer {
                     @Override
                     public void onConnected(InputStream in) {
                         showLog("Connected");
+                    }
+                }, new FileInitCallBack(){
+                    @Override
+                    public void onFileReceived(InputStream in) {
                         BufferedReader br = new BufferedReader(new InputStreamReader(in));
                         try {
                             final String fileName = br.readLine();
@@ -167,6 +174,7 @@ public class BleSyncActivity extends AppCompatActivity implements Observer {
                                     mySensorManager.setFileName(fileName + ".csv");
                                 }
                             });
+                            showLog("FILE INITED");
                         } catch (IOException e) {
                             e.printStackTrace();
                         }
@@ -180,7 +188,7 @@ public class BleSyncActivity extends AppCompatActivity implements Observer {
                 }, new StopCallBack() {
                     @Override
                     public void onStop() {
-                        showLog("STOPED");
+                        showLog("STOPPED");
                         mySensorManager.stop();
                     }
                 });
@@ -197,18 +205,14 @@ public class BleSyncActivity extends AppCompatActivity implements Observer {
                     return;
                 }
                 String fileName = etFileName.getText().toString();
-                if(fileName.equals("")){
-                    toastError("Please input fileName first");
-                    return;
-                }
+
                 showLog("Master");
                 bleServer = new BleServer();
-                bleServer.setFileName(etFileName.getText().toString());
                 bleServer.addObserver(BleSyncActivity.this);
                 bleServer.listen();
                 btnClient.setEnabled(false);
                 btnMaster.setEnabled(false);
-                etFileName.setEnabled(false);
+//                etFileName.setEnabled(false);
             }
         });
     }
@@ -345,6 +349,7 @@ public class BleSyncActivity extends AppCompatActivity implements Observer {
                 int numOfClinet = (int) data;
                 tv_log.setText(numOfClinet + " clients connected");
                 if(numOfClinet >= 1){
+                    btnStart.setText("INIT FILE");
                     btnStart.setEnabled(true);
                 }
             }

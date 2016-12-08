@@ -48,9 +48,6 @@ public class BleServer extends Observable {
                         sockets.add(socket);
                         OutputStream out = socket.getOutputStream();
                         outs.add(out);
-                        PrintWriter pw = new PrintWriter(out);
-                        pw.write(fileName + "\n");
-                        pw.flush();
                         setChanged();
                         notifyObservers(outs.size());
                     } catch (IOException e) {
@@ -97,12 +94,12 @@ public class BleServer extends Observable {
         }
     }
 
-    public String getFileName() {
-        return fileName;
-    }
 
-    public void setFileName(String fileName) {
-        this.fileName = fileName;
+    public void sendFileCommands(String fileName) {
+        for(OutputStream out:outs){
+            PrintWriter pw = new PrintWriter(out);
+            pw.write(fileName + "\n");
+            pw.flush();
+        }
     }
-
 }

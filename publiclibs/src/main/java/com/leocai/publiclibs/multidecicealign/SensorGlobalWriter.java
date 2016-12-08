@@ -32,7 +32,7 @@ public class SensorGlobalWriter extends Observable implements SensorEventListene
     private double[] linear_acceleration = new double[3];
 
     private ShakingData cuShakingData = new ShakingData();
-    private boolean stop;
+    private volatile boolean stop;
 
     private OutputStream outputStream;
     private FileWriter fileWriter;
@@ -71,6 +71,7 @@ public class SensorGlobalWriter extends Observable implements SensorEventListene
     }
 
     public void startDetection() {
+        stop = false;
         new Thread(new Runnable() {
             @Override
             public void run() {

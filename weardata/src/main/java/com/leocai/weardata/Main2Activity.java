@@ -56,6 +56,10 @@ public class Main2Activity extends Activity {
 
                             }
 
+                        }, new FileInitCallBack() {
+                            @Override
+                            public void onFileReceived(OutputStream out) {
+                            }
                         }, new StartCallBack() {
                             @Override
                             public void onStart() {

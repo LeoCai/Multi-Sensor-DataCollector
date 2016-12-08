@@ -12,11 +12,12 @@ import android.widget.TextView;
 
 import com.leocai.publiclibs.ConnectedCallBack;
 import com.leocai.publiclibs.multidecicealign.BleClient;
-import com.leocai.publiclibs.multidecicealign.MySensorManager;
+import com.leocai.publiclibs.multidecicealign.FileInitCallBack;
 import com.leocai.publiclibs.multidecicealign.StartCallBack;
 import com.leocai.publiclibs.multidecicealign.StopCallBack;
 
 import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -95,6 +96,10 @@ public class BleSyncActivitySamsung extends AppCompatActivity implements Observe
                     public void onConnected(InputStream in) {
                         showLog("Connected");
                         accessoryConsumer.connect();
+                    }
+                }, new FileInitCallBack() {
+                    @Override
+                    public void onFileReceived(InputStream in) {
                     }
                 }, new StartCallBack() {
                     @Override
