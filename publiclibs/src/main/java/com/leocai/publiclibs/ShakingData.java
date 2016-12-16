@@ -410,11 +410,10 @@ public class ShakingData implements Serializable, Cloneable {
         SensorManager.getRotationMatrix(rotationMatrix, inclimentMatrix,
                 new float[]{(float) gravityAccData[0], (float) gravityAccData[1], (float) gravityAccData[2]},
                 new float[]{(float) magnetData[0], (float) magnetData[1], (float) magnetData[2]});
-
         double[][] tempData = MatrixUtils.multiply(new double[][]{
-                {rotationMatrix[0], rotationMatrix[3], rotationMatrix[6]},
-                {rotationMatrix[1], rotationMatrix[4], rotationMatrix[7]},
-                {rotationMatrix[2], rotationMatrix[5], rotationMatrix[8]}
+                {rotationMatrix[0], rotationMatrix[1], rotationMatrix[2]},
+                {rotationMatrix[3], rotationMatrix[4], rotationMatrix[5]},
+                {rotationMatrix[6], rotationMatrix[7], rotationMatrix[8]}
 
         }, MatrixUtils.convertVectorToMatrix(linearAccData));
 
