@@ -11,11 +11,13 @@ import android.widget.TextView;
 
 import com.leocai.publiclibs.ConnectedCallBack;
 import com.leocai.publiclibs.multidecicealign.BleClient;
+import com.leocai.publiclibs.multidecicealign.FileInitCallBack;
 import com.leocai.publiclibs.multidecicealign.MySensorManager;
 import com.leocai.publiclibs.multidecicealign.StartCallBack;
 import com.leocai.publiclibs.multidecicealign.StopCallBack;
 
 import java.io.InputStream;
+import java.io.OutputStream;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -58,7 +60,7 @@ public class Main2Activity extends Activity {
 
                         }, new FileInitCallBack() {
                             @Override
-                            public void onFileReceived(OutputStream out) {
+                            public void onFileReceived(InputStream in) {
                             }
                         }, new StartCallBack() {
                             @Override

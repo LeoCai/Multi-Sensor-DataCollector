@@ -39,7 +39,7 @@ public class MySensorManager {
 
     public void startSensor() {
         if(frequency==0) frequency = (int) (1000/ PublicConstants.SENSOPR_PERIOD);
-        sensorGlobalWriter = new SensorGlobalWriter();
+        sensorGlobalWriter = new SensorSokectWriter();
         mSensorManager.registerListener(sensorGlobalWriter, mSensorAcc, (int) (1000 / frequency * 1000)); // 根据频率调整
         mSensorManager.registerListener(sensorGlobalWriter, mSensorGYR, (int) (1000 / frequency * 1000));
         mSensorManager.registerListener(sensorGlobalWriter, mSensorMAG, (int) (1000 / frequency * 1000));

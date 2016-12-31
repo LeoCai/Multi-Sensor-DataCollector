@@ -4,9 +4,6 @@ import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 
 import com.leocai.publiclibs.ShakingData;
-import com.leocai.publiclibs.utils.ApplyFuncMean;
-import com.leocai.publiclibs.utils.ApplyFuncPeak;
-import com.leocai.publiclibs.utils.ApplyFuncPeak2;
 import com.leocai.publiclibs.utils.RollApply;
 
 import java.util.ArrayList;
@@ -16,6 +13,7 @@ import java.util.Observable;
 /**
  * Created by leocai on 15-12-21.
  */
+@Deprecated
 public class ShakeDetectorOld extends Observable   {
     private static final int PEAK_NUM = 15;
     public static final int THREHOLD_ACC = 4;
@@ -99,11 +97,11 @@ public class ShakeDetectorOld extends Observable   {
     }
 
     private void meanRoll() {
-        shakeAccBuffer = RollApply.rollApply(shakeAccBuffer, 5, new ApplyFuncMean());
+//        shakeAccBuffer = RollApply.rollApply(shakeAccBuffer, 5, new ApplyFuncMean());
     }
 
     private void peakRoll() {
-        shakeAccBuffer = RollApply.rollApply(shakeAccBuffer, 5, new ApplyFuncPeak());
+//        shakeAccBuffer = RollApply.rollApply(shakeAccBuffer, 5, new ApplyFuncPeak());
     }
 
     private void peakRoll2() {
@@ -116,7 +114,7 @@ public class ShakeDetectorOld extends Observable   {
             }
         }
         meanPeak /= count;
-        shakeAccBuffer = RollApply.rollApply(shakeAccBuffer, 1, new ApplyFuncPeak2(meanPeak));
+//        shakeAccBuffer = RollApply.rollApply(shakeAccBuffer, 1, new ApplyFuncPeak2(meanPeak));
     }
 
     private void shrinkPeak() {

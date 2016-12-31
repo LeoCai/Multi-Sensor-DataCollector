@@ -26,4 +26,5 @@ dependencies {
     compile 'com.android.support:design:23.1.1'
     compile files('libs/accessory-v2.3.0.jar')
     compile files('libs/sdk-v1.0.0.jar')
+    compile files('libs/spacesync.jar')
 }

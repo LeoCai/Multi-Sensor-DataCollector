@@ -42,6 +42,8 @@ public class BleSyncActivity extends AppCompatActivity implements Observer {
     private static final String PREF_ADDRESS_KEY = "master_address";
     private static final String PREFS_NAME = "pref";
     private static final String PREF_FREQUNCY_KEY = "frequncy";
+    private static final String PREF_FILENAME_KEY = "filename";
+
     private static final int STOPPED = 0;
     private static final int FILE_INITED = 1;
     private static final int STARTING = 2;
@@ -88,8 +90,8 @@ public class BleSyncActivity extends AppCompatActivity implements Observer {
         edt_masterAddress.setText(masterAddress);
         frequency = readFrequncy();
         edt_frequency.setText(frequency+"");
+        etFileName.setText(readFileName());
     }
-
 
 
     private void startBtnAction() {
@@ -107,6 +109,7 @@ public class BleSyncActivity extends AppCompatActivity implements Observer {
                             toastError("Please input fileName first");
                             return;
                         }
+                        saveFileName(fileName);
                         bleServer.sendFileCommands(fileName);
                         ((Button) v).setText("START");
                         start = FILE_INITED;
@@ -167,11 +170,12 @@ public class BleSyncActivity extends AppCompatActivity implements Observer {
                         BufferedReader br = new BufferedReader(new InputStreamReader(in));
                         try {
                             final String fileName = br.readLine();
+                            mySensorManager.setFileName(fileName);
                             runOnUiThread(new Runnable() {
                                 @Override
                                 public void run() {
                                     etFileName.setText(fileName);
-                                    mySensorManager.setFileName(fileName + ".csv");
+                                    etFileName.setEnabled(false);
                                 }
                             });
                             showLog("FILE INITED");
@@ -247,8 +251,20 @@ public class BleSyncActivity extends AppCompatActivity implements Observer {
         SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
         SharedPreferences.Editor editor = settings.edit();
         editor.putString(PREF_ADDRESS_KEY, masterAddress);
-        editor.commit();
+        editor.apply();
     }
+
+    private String readFileName() {
+        SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
+        return settings.getString(PREF_FILENAME_KEY, "114.212.85.124");
+    }
+    private void saveFileName(String fileName){
+        SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
+        SharedPreferences.Editor editor = settings.edit();
+        editor.putString(PREF_FILENAME_KEY, fileName);
+        editor.apply();
+    }
+
 
     private String readMasterAddress() {
         SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
@@ -259,13 +275,15 @@ public class BleSyncActivity extends AppCompatActivity implements Observer {
         SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
         SharedPreferences.Editor editor = settings.edit();
         editor.putInt(PREF_FREQUNCY_KEY, frequency);
-        editor.commit();
+        editor.apply();
     }
 
     private int readFrequncy() {
         SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
         return settings.getInt(PREF_FREQUNCY_KEY, 50);
     }
+
+
 
     private void showLog(final String info) {
         runOnUiThread(new Runnable() {

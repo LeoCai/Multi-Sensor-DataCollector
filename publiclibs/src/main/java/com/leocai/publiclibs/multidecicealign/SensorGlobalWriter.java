@@ -31,7 +31,7 @@ public class SensorGlobalWriter extends Observable implements SensorEventListene
     private double[] gravity = new double[3];//TODO 初始值
     private double[] linear_acceleration = new double[3];
 
-    private ShakingData cuShakingData = new ShakingData();
+    protected ShakingData cuShakingData = new ShakingData();
     private volatile boolean stop;
 
     private OutputStream outputStream;

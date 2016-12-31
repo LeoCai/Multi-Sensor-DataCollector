@@ -6,11 +6,6 @@ import android.hardware.SensorEventListener;
 import android.util.Log;
 
 
-import com.leocai.publiclibs.utils.ApplyFuncMean;
-import com.leocai.publiclibs.utils.ApplyFuncPeak;
-import com.leocai.publiclibs.utils.ApplyFuncPeak2;
-import com.leocai.publiclibs.utils.RollApply;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Observable;
@@ -158,11 +153,11 @@ public class ShakeDetector extends Observable  implements SensorEventListener {
     }
 
     private void meanRoll() {
-        resultantantAccBuffer = RollApply.rollApply(resultantantAccBuffer, 5, new ApplyFuncMean());
+//        resultantantAccBuffer = RollApply.rollApply(resultantantAccBuffer, 5, new ApplyFuncMean());
     }
 
     private void peakRoll() {
-        resultantantAccBuffer = RollApply.rollApply(resultantantAccBuffer, 5, new ApplyFuncPeak());
+//        resultantantAccBuffer = RollApply.rollApply(resultantantAccBuffer, 5, new ApplyFuncPeak());
     }
 
     private void peakRoll2() {
@@ -175,7 +170,7 @@ public class ShakeDetector extends Observable  implements SensorEventListener {
             }
         }
         meanPeak /= count;
-        resultantantAccBuffer = RollApply.rollApply(resultantantAccBuffer, 1, new ApplyFuncPeak2(meanPeak));
+//        resultantantAccBuffer = RollApply.rollApply(resultantantAccBuffer, 1, new ApplyFuncPeak2(meanPeak));
     }
 
     private void shrinkPeak() {

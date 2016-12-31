@@ -3,6 +3,8 @@ package com.leocai.publiclibs;
 import android.hardware.SensorManager;
 import android.util.Log;
 
+import com.dislab.leocai.spacesync.utils.MatrixUtils;
+
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.DataInputStream;
@@ -14,7 +16,6 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.Random;
 
-import transformation.MatrixUtils;
 
 /**
  * Remenber to sync format when update members
