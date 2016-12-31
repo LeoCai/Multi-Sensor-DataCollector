@@ -40,9 +40,9 @@ public class MainActivity extends AppCompatActivity {
                 if(stopped){
                     ((Button)v).setText("STOP");
                     stopped = false;
-                    mSensorManager.registerListener(sensorGlobalWriter, mSensorAcc, (int) (Constants.SENSOPR_PERIOD * 1000)); // 根据频率调整
-                    mSensorManager.registerListener(sensorGlobalWriter, mSensorGYR, (int) (Constants.SENSOPR_PERIOD * 1000));
-                    mSensorManager.registerListener(sensorGlobalWriter, mSensorMAG, (int) (Constants.SENSOPR_PERIOD * 1000));
+                    mSensorManager.registerListener(sensorGlobalWriter, mSensorAcc, (int) (CollectorConfig.SENSOPR_PERIOD * 1000)); // 根据频率调整
+                    mSensorManager.registerListener(sensorGlobalWriter, mSensorGYR, (int) (CollectorConfig.SENSOPR_PERIOD * 1000));
+                    mSensorManager.registerListener(sensorGlobalWriter, mSensorMAG, (int) (CollectorConfig.SENSOPR_PERIOD * 1000));
                     sensorGlobalWriter.startDetection();
                 }else{
                     ((Button)v).setText("START");

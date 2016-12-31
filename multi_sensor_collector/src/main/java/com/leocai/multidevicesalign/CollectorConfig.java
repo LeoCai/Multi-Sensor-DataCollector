@@ -6,7 +6,10 @@ import java.util.UUID;
  * 独立项目的公有变量
  * Created by leocai on 16-1-5.
  */
-public class Constants {
+public class CollectorConfig {
+    /**
+     * 传感器周期 ms单位
+     */
     public static final long SENSOPR_PERIOD = 20;
     public static final String MASTER_ADDRESS = "E8:B4:C8:8A:01:C7";
     public static final int SHAKING_DATA_SIZE = 50;

@@ -9,12 +9,12 @@
         <option name="modules">
           <set>
             <option value="$PROJECT_DIR$" />
-            <option value="$PROJECT_DIR$/detecdtion" />
-            <option value="$PROJECT_DIR$/mobile" />
-            <option value="$PROJECT_DIR$/multidevicesalign" />
+            <option value="$PROJECT_DIR$/detection_unused" />
+            <option value="$PROJECT_DIR$/multi_sensor_collector" />
             <option value="$PROJECT_DIR$/publiclibs" />
-            <option value="$PROJECT_DIR$/wear" />
-            <option value="$PROJECT_DIR$/weardata" />
+            <option value="$PROJECT_DIR$/unsued1" />
+            <option value="$PROJECT_DIR$/wear_depracated" />
+            <option value="$PROJECT_DIR$/weardata_depracated" />
           </set>
         </option>
       </GradleProjectSettings>

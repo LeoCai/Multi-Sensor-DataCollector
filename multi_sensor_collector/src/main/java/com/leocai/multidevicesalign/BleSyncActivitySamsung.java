@@ -11,6 +11,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.leocai.publiclibs.ConnectedCallBack;
+import com.leocai.publiclibs.connection.BleServer;
 import com.leocai.publiclibs.multidecicealign.BleClient;
 import com.leocai.publiclibs.multidecicealign.FileInitCallBack;
 import com.leocai.publiclibs.multidecicealign.StartCallBack;

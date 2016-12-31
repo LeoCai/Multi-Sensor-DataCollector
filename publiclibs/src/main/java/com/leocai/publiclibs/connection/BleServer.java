@@ -1,4 +1,4 @@
-package com.leocai.multidevicesalign;
+package com.leocai.publiclibs.connection;
 
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothServerSocket;
@@ -38,7 +38,7 @@ public class BleServer extends Observable {
     /**
      * 监听并发送文件名给其它从计
      */
-    void listen() {
+    public void listen() {
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -69,7 +69,7 @@ public class BleServer extends Observable {
     /**
      * 发送开始指令
      */
-    void sendStartCommands() {
+    public void sendStartCommands() {
         for (OutputStream out : outs) {
             try {
                 out.write(new byte[]{1});

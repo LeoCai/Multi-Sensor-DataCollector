@@ -2,8 +2,8 @@ package com.leocai.multidevicesalign;
 
 import android.bluetooth.BluetoothAdapter;
 import android.content.SharedPreferences;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -14,6 +14,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.leocai.publiclibs.ConnectedCallBack;
+import com.leocai.publiclibs.connection.BleServer;
 import com.leocai.publiclibs.multidecicealign.BleClient;
 import com.leocai.publiclibs.multidecicealign.FileInitCallBack;
 import com.leocai.publiclibs.multidecicealign.MySensorManager;
@@ -24,7 +25,6 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.io.OutputStream;
 import java.text.SimpleDateFormat;
 import java.util.Observable;
 import java.util.Observer;
