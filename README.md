@@ -1,5 +1,4 @@
-# iShakeAuth and Space sync
-
+# Multi Sensor DataCollector
 Build Trust via Physical Handshake
 detection:buld trust via physical handshake
 
