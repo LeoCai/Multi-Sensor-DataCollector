@@ -20,11 +20,11 @@ multidevicealign: project of space sync
 2. sockect模式下传输数据丢包
 
 # 采集的数据类型
-* Sensor.TYPE_ACCELEROMETE
-* Sensor.TYPE_GYROSCOPE
-* Sensor.TYPE_MAGNETIC_FIELD
-* Sensor.TYPE_GRAVITY
-* Sensor.TYPE_LINEAR_ACCELERATION
+* 加速度　Sensor.TYPE_ACCELEROMETE
+* 陀螺仪　Sensor.TYPE_GYROSCOPE
+* 磁力计　Sensor.TYPE_MAGNETIC_FIELD
+* 重力　Sensor.TYPE_GRAVITY
+* 线性加速度　Sensor.TYPE_LINEAR_ACCELERATION
 
 修改位置：[MySensorManager.java]()
 
