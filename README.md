@@ -26,10 +26,10 @@ multidevicealign: project of space sync
 * 重力　Sensor.TYPE_GRAVITY
 * 线性加速度　Sensor.TYPE_LINEAR_ACCELERATION
 
-修改位置：[MySensorManager.java]()
+修改位置：[MySensorManager.java](publiclibs/src/main/java/com/leocai/publiclibs/multidecicealign/MySensorManager.java)
 
 # 参数修改
-频率周期修改: [CollectorConfig.java]()
+频率周期修改: [CollectorConfig.java](multidevicesalign/CollectorConfig.java)
 
 # 项目配置
 ```gradle
