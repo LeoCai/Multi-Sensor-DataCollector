@@ -1,17 +1,6 @@
 Multi Sensor DataCollector
 ===
 
-Build Trust via Physical Handshake
-detection:buld trust via physical handshake
-
-include project of space sync：
-
-ps: you need to change  master ble address in public constants
-
-publiclibs: public lib of constants, sensor data manager, ble connection class
-
-multidevicealign: project of space sync
-
 # 项目简介
 该项目用于多客户端传感器采集和发送，可用于科研采集数据，可利用wifi实时传输传感器数据；支持一个主节点进行蓝牙控制，多个从节点同时开始采集数据；支持利用sokect实时传输传感器数据到服务器
 
@@ -36,6 +25,10 @@ multidevicealign: project of space sync
 compileSdkVersion 23
 buildToolsVersion "23.0.1"
 ```
+## 关联项目
+* [sokect传输框架](https://github.com/LeoCai/iSpaceSync)
+* [sokect PC 服务端](https://github.com/LeoCai/SpaceSync-PC-Demo)
+* [sokect android 服务端](https://github.com/LeoCai/SpaceSync-Android-Demo)
 
 # 使用方式
 1. 安装multi_sensor_collector module到各个手机上
