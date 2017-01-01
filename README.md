@@ -33,13 +33,13 @@ compile files('libs/spacesync.jar')
 2. 在控制主手机上点击MASTER
 3. 在传感器手机熵点击CLIENT，从手机显示CONNECTED, 主手机显示1 CONNCECTED
 4. 若为本地采集CSV模式：
-  4.1 输入文件名
-  4.2 按下主手机上的INIT FILE
-  4.3 从手机显示FILE　INITED
-  4.4 主手机按下START，从手机显示STARTING，开始采集数据到本地csv
+  1. 输入文件名
+  2. 按下主手机上的INIT FILE
+  3. 从手机显示FILE　INITED
+  4. 主手机按下START，从手机显示STARTING，开始采集数据到本地csv
 5. 若为sockect传输模式
-  5.1 输入主机IP地址
-  5.2 按下助手及上的INIT FILE
-  5.3 从手机显示FILE INITED，服务端显示...CONNECTED
-  5.4 主手机按下START，服务端按下READY，开始传输数据
+  1. 输入主机IP地址
+  2. 按下助手及上的INIT FILE
+  3. 从手机显示FILE INITED，服务端显示...CONNECTED
+  4. 主手机按下START，服务端按下READY，开始传输数据
 #主要函数介绍
