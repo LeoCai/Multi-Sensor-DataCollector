@@ -18,7 +18,7 @@ Multi Sensor DataCollector
 修改位置：[MySensorManager.java](publiclibs/src/main/java/com/leocai/publiclibs/multidecicealign/MySensorManager.java)
 
 # 参数修改
-频率周期修改: [CollectorConfig.java](multidevicesalign/CollectorConfig.java)
+频率周期修改: [CollectorConfig.java](multi_sensor_collector/src/main/java/com/leocai/multidevicesalign/CollectorConfig.java)
 
 # 项目配置
 ```gradle
@@ -26,9 +26,9 @@ compileSdkVersion 23
 buildToolsVersion "23.0.1"
 ```
 ## 关联项目
-* [sokect传输框架](https://github.com/LeoCai/iSpaceSync)
-* [sokect PC 服务端](https://github.com/LeoCai/SpaceSync-PC-Demo)
-* [sokect android 服务端](https://github.com/LeoCai/SpaceSync-Android-Demo)
+* [sokect传输框架](https://github.com/LeoCai/iSpaceSync)：jar包依赖
+* [sokect PC 服务端](https://github.com/LeoCai/SpaceSync-PC-Demo)：若为socket模式须安装PC或Android服务端
+* [sokect android 服务端](https://github.com/LeoCai/SpaceSync-Android-Demo)：若为socket模式须安装PC或Android服务端
 
 # 使用方式
 1. 安装multi_sensor_collector module到各个手机上
