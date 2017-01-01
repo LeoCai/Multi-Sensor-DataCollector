@@ -19,6 +19,18 @@ multidevicealign: project of space sync
 1. sockect模式下不能重复连接使用
 2. sockect模式下传输数据丢包
 
+# 采集的数据类型
+* Sensor.TYPE_ACCELEROMETE
+* Sensor.TYPE_GYROSCOPE
+* Sensor.TYPE_MAGNETIC_FIELD
+* Sensor.TYPE_GRAVITY
+* Sensor.TYPE_LINEAR_ACCELERATION
+
+修改位置：[MySensorManager.java]()
+
+# 参数修改
+频率周期修改: [CollectorConfig.java]()
+
 # 项目配置
 ```gradle
 compileSdkVersion 23
