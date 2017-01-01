@@ -36,14 +36,7 @@ multidevicealign: project of space sync
 compileSdkVersion 23
 buildToolsVersion "23.0.1"
 ```
-```gradle
-compile project(':publiclibs')
-compile 'com.android.support:appcompat-v7:23.1.1'
-compile 'com.android.support:design:23.1.1'
-compile files('libs/accessory-v2.3.0.jar')
-compile files('libs/sdk-v1.0.0.jar')
-compile files('libs/spacesync.jar')
-```
+
 # 使用方式
 1. 安装multi_sensor_collector module到各个手机上
 2. 在控制主手机上点击MASTER
@@ -59,3 +52,6 @@ compile files('libs/spacesync.jar')
   3. 从手机显示FILE INITED，服务端显示...CONNECTED
   4. 主手机按下START，服务端按下READY，开始传输数据
 #主要函数介绍
+## module 介绍
+* multi_sensor_collector 项目界面模块，用于安装app，依赖publiclibs
+* publiclibs 封装了采集数据和传输框架，依赖spacesync.jar
