@@ -12,10 +12,14 @@ publiclibs: public lib of constants, sensor data manager, ble connection class
 
 multidevicealign: project of space sync
 
-#项目简介
+# 项目简介
 该项目用于多客户端传感器采集和发送，可用于科研采集数据，可利用wifi实时传输传感器数据
 
-#项目配置
+# 待解决问题
+1. sockect模式下不能重复连接使用
+2. sockect模式下传输数据丢包
+
+# 项目配置
 ```gradle
 compileSdkVersion 23
 buildToolsVersion "23.0.1"
@@ -28,7 +32,7 @@ compile files('libs/accessory-v2.3.0.jar')
 compile files('libs/sdk-v1.0.0.jar')
 compile files('libs/spacesync.jar')
 ```
-#使用方式
+# 使用方式
 1. 安装multi_sensor_collector module到各个手机上
 2. 在控制主手机上点击MASTER
 3. 在传感器手机熵点击CLIENT，从手机显示CONNECTED, 主手机显示1 CONNCECTED
