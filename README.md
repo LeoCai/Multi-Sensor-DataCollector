@@ -51,6 +51,7 @@ buildToolsVersion "23.0.1"
   2. 按下助手及上的INIT FILE
   3. 从手机显示FILE INITED，服务端显示...CONNECTED
   4. 主手机按下START，服务端按下READY，开始传输数据
+  
 #主要函数介绍
 ## module 介绍
 * multi_sensor_collector 项目界面模块，用于安装app，依赖publiclibs
