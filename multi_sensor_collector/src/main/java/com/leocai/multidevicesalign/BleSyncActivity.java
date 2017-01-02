@@ -18,6 +18,7 @@ import com.leocai.publiclibs.connection.BleServer;
 import com.leocai.publiclibs.multidecicealign.BleClient;
 import com.leocai.publiclibs.multidecicealign.FileInitCallBack;
 import com.leocai.publiclibs.multidecicealign.MySensorManager;
+import com.leocai.publiclibs.multidecicealign.SensorSokectWriter;
 import com.leocai.publiclibs.multidecicealign.StartCallBack;
 import com.leocai.publiclibs.multidecicealign.StopCallBack;
 
@@ -150,12 +151,10 @@ public class BleSyncActivity extends AppCompatActivity implements Observer {
                 btnStart.setEnabled(false);
                 btnClient.setEnabled(false);
                 mySensorManager = new MySensorManager(BleSyncActivity.this);
+                mySensorManager.setGlobalWriter(new SensorSokectWriter());
                 frequency = Integer.parseInt(edt_frequency.getText().toString());
                 saveFrequncy(frequency);
                 mySensorManager.setFrequency(frequency);
-                SimpleDateFormat simpleDateFormat = new SimpleDateFormat("HH_mm_ss_SS");
-//                String fileName = simpleDateFormat.format(new Date());
-//                mySensorManager.setFileName(fileName + ".csv");
                 mySensorManager.startSensor();
 
                 bleClient = new BleClient(masterAddress);
@@ -208,7 +207,6 @@ public class BleSyncActivity extends AppCompatActivity implements Observer {
                     toastError("Blutooth Not Open");
                     return;
                 }
-                String fileName = etFileName.getText().toString();
 
                 showLog("Master");
                 bleServer = new BleServer();
@@ -216,7 +214,6 @@ public class BleSyncActivity extends AppCompatActivity implements Observer {
                 bleServer.listen();
                 btnClient.setEnabled(false);
                 btnMaster.setEnabled(false);
-//                etFileName.setEnabled(false);
             }
         });
     }

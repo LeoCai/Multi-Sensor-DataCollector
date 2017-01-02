@@ -20,7 +20,6 @@ public class MySensorManager {
     private Sensor mSensorMAG;
     private Sensor mSensorGravity;
     private Sensor mSensorLinear;
-    SensorDataWriter sensorDataWriter;
     /**
      * 用于写文件的类
      */
@@ -35,11 +34,21 @@ public class MySensorManager {
         mSensorMAG = mSensorManager.getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD);
         mSensorGravity = mSensorManager.getDefaultSensor(Sensor.TYPE_GRAVITY);
         mSensorLinear = mSensorManager.getDefaultSensor(Sensor.TYPE_LINEAR_ACCELERATION);
+        sensorGlobalWriter = new SensorGlobalWriter();
+    }
+
+    /**
+     * 设置写本地文件还是socket通信
+     * @param globalWriter
+     * SensorSocketWriter 写socket
+     * SensorGlobalWriter 写文件
+     */
+    public void setGlobalWriter(SensorGlobalWriter globalWriter){
+        sensorGlobalWriter = globalWriter;
     }
 
     public void startSensor() {
         if(frequency==0) frequency = (int) (1000/ PublicConstants.SENSOPR_PERIOD);
-        sensorGlobalWriter = new SensorSokectWriter();
         mSensorManager.registerListener(sensorGlobalWriter, mSensorAcc, (int) (1000 / frequency * 1000)); // 根据频率调整
         mSensorManager.registerListener(sensorGlobalWriter, mSensorGYR, (int) (1000 / frequency * 1000));
         mSensorManager.registerListener(sensorGlobalWriter, mSensorMAG, (int) (1000 / frequency * 1000));
@@ -64,6 +73,10 @@ public class MySensorManager {
         sensorGlobalWriter.close();
     }
 
+    /**
+     * 设置文件名或ip地址
+     * @param fileName
+     */
     public void setFileName(String fileName) {
         sensorGlobalWriter.setFileName(fileName);
     }
