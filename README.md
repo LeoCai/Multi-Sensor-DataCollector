@@ -8,7 +8,7 @@ Multi Sensor DataCollector
 * 支持一个主节点进行蓝牙控制，多个从节点同时开始采集数据；
 * 支持利用sokect实时传输传感器数据到服务器
 
-<imgs src="./imgs/s1.png" width=200 height = 380/>
+<img src="./imgs/s1.png" width=200 height=380 />
 
 
 
