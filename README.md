@@ -10,7 +10,7 @@ Multi Sensor DataCollector
 
 <img src="./imgs/s5.png" width=200 height=380 />
 <img src="./imgs/s7.png" width=200 height=380 />
-<img src="./imgs/s6.png" width=200 height=380 />
+<img src="./imgs/s6.png" width=500 height=500 />
 
 
 
