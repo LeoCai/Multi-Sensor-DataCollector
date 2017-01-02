@@ -9,8 +9,8 @@ Multi Sensor DataCollector
 * 支持利用sokect实时传输传感器数据到服务器
 
 <img src="./imgs/s5.png" width=200 height=380 />
-<img src="./imgs/s6.png" width=200 height=380 />
 <img src="./imgs/s7.png" width=200 height=380 />
+<img src="./imgs/s6.png" width=200 height=380 />
 
 
 
