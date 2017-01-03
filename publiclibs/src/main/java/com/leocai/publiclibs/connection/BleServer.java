@@ -9,6 +9,7 @@ import com.leocai.publiclibs.PublicConstants;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.PrintWriter;
+import java.net.Socket;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Observable;
@@ -24,6 +25,7 @@ public class BleServer extends Observable {
     private BluetoothServerSocket mmServerSocket;
 
     private String fileName;
+    private volatile boolean stop;
 
     public BleServer() {
         BluetoothAdapter mAdapter = BluetoothAdapter.getDefaultAdapter();
@@ -42,7 +44,7 @@ public class BleServer extends Observable {
         new Thread(new Runnable() {
             @Override
             public void run() {
-                while (true) {
+                while (!stop) {
                     try {
                         BluetoothSocket socket = mmServerSocket.accept();
                         sockets.add(socket);
@@ -100,6 +102,18 @@ public class BleServer extends Observable {
             PrintWriter pw = new PrintWriter(out);
             pw.write(fileName + "\n");
             pw.flush();
+        }
+    }
+
+    public void close() {
+        stop = true;
+        try {
+            for(BluetoothSocket socket:sockets){
+                socket.close();
+            }
+            mmServerSocket.close();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 }

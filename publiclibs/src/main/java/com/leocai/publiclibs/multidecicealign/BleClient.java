@@ -20,7 +20,7 @@ public class BleClient {
     InputStream in;
 
     BleConnection bleConnection = new BleConnection();
-    private boolean stopped = false;
+    private volatile boolean stopped = false;
 
     /**
      * 用蓝牙连结到主机
@@ -36,19 +36,17 @@ public class BleClient {
             public void onConnected(InputStream in) {
                 connectedCallBack.onConnected(in);
                 BleClient.this.in = in;
-                while (!stopped) {
-                    fileInitCallBack.onFileReceived(in);
-                    byte[] buffer = new byte[1];
-                    try {
-                        if (in.read(buffer) != -1)
-                            startCallBack.onStart();
-                        if (in.read(buffer) != -1)
-                            stopCallBack.onStop();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-
+                fileInitCallBack.onFileReceived(in);
+                byte[] buffer = new byte[1];
+                try {
+                    if (in.read(buffer) != -1)
+                        startCallBack.onStart();
+                    if (in.read(buffer) != -1)
+                        stopCallBack.onStop();
+                } catch (IOException e) {
+                    e.printStackTrace();
                 }
+
             }
         });
 
@@ -85,5 +83,13 @@ public class BleClient {
 
     public BleClient(String masterAddress) {
         this.masterAddress = masterAddress;
+    }
+
+    public void close() {
+        try {
+            bleConnection.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }

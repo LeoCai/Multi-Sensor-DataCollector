@@ -13,12 +13,12 @@ import android.widget.Button;
 import com.leocai.publiclibs.multidecicealign.SensorDataWriter;
 import com.leocai.publiclibs.multidecicealign.SensorGlobalWriter;
 
+@Deprecated
 public class MainActivity extends AppCompatActivity {
 
     private SensorManager mSensorManager;
     private Sensor mSensorAcc;
     private Sensor mSensorGYR;
-    SensorDataWriter sensorDataWriter = new SensorDataWriter("SensorData.csv");
     SensorGlobalWriter sensorGlobalWriter = new SensorGlobalWriter("SensorGlobal.txt");
     private boolean stopped = true;
     private Sensor mSensorMAG;

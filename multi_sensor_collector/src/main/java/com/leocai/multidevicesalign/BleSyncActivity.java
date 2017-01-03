@@ -73,25 +73,35 @@ public class BleSyncActivity extends AppCompatActivity implements Observer {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_ble_sync);
         tv_log = (TextView) findViewById(R.id.tv_log);
-        Log.d(TAG, "onCreate");
         btnMaster = (Button) findViewById(R.id.btn_master);
         btnClient = (Button) findViewById(R.id.btn_client);
         btnStart = (Button) findViewById(R.id.btn_start);
         etFileName = (EditText) findViewById(R.id.et_filename);
         edt_masterAddress = (EditText) findViewById(R.id.edt_masterAddress);
         edt_frequency = (EditText) findViewById(R.id.edt_sensor_frequency);
+
+        init();
+
+
+
+    }
+
+    public void init(){
+        btnMaster.setEnabled(true);
         btnClient.setEnabled(true);
         btnStart.setEnabled(false);
-
         masterBtnAction();
         clientBtnAction();
         startBtnAction();
-
         masterAddress = readMasterAddress();
         edt_masterAddress.setText(masterAddress);
         frequency = readFrequncy();
         edt_frequency.setText(frequency+"");
         etFileName.setText(readFileName());
+        etFileName.setEnabled(true);
+        btnStart.setText("START");
+        tv_log.setText("");
+
     }
 
 
@@ -350,6 +360,15 @@ public class BleSyncActivity extends AppCompatActivity implements Observer {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
+            if(mySensorManager!=null){
+                mySensorManager.stop();
+                mySensorManager.close();
+            }
+            if(bleServer!=null)
+            bleServer.close();
+            if(bleClient!=null)
+            bleClient.close();
+            init();
             return true;
         }
 
