@@ -68,5 +68,6 @@ MySensorManager　mySensorManager = new MySensorManager(contex); //初始化
 mySensorManager.setGlobalWriter(new SensorSokectWriter()); //设置文件还是socket
 mySensorManager.setFrequency(frequency); //设置频率
 mySensorManager.startSensor();　//启动传感器
+mySensorManager.setFileName("127.0.0.1"); //设置文件名或者ip地址
 mySensorManager.startDetection(); //写文件或写socket
 ```
