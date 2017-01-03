@@ -9,6 +9,7 @@ import android.widget.TextView;
 import com.leocai.publiclibs.ShakingData;
 import com.leocai.publiclibs.multidecicealign.MySensorManager;
 
+import java.io.IOException;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -26,7 +27,11 @@ public class SimpleDataActivity extends Activity implements Observer {
         tv_log = (TextView)findViewById(R.id.tv_log);
         btn_start = (Button)findViewById(R.id.btn_start);
         mySensorManager = new MySensorManager(this);
-        mySensorManager.setFileName("simple.csv");
+        try {
+            mySensorManager.setFileName("simple.csv");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         mySensorManager.addObserver(this);
         mySensorManager.startSensor();
         btn_start.setOnClickListener(new View.OnClickListener() {

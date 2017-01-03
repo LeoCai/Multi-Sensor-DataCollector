@@ -16,6 +16,7 @@ import com.leocai.publiclibs.multidecicealign.MySensorManager;
 import com.leocai.publiclibs.multidecicealign.StartCallBack;
 import com.leocai.publiclibs.multidecicealign.StopCallBack;
 
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.text.SimpleDateFormat;
@@ -48,7 +49,11 @@ public class Main2Activity extends Activity {
                         mySensorManager = new MySensorManager(Main2Activity.this);
                         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("HH_mm_ss");
                         String fileName = simpleDateFormat.format(new Date())+".csv";
-                        mySensorManager.setFileName(fileName);
+                        try {
+                            mySensorManager.setFileName(fileName);
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
                         mySensorManager.startSensor();
                         bleClient = new BleClient("");
                         bleClient.connect(new ConnectedCallBack() {

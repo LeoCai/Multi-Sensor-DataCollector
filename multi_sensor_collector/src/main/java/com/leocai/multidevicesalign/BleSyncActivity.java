@@ -26,7 +26,6 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.text.SimpleDateFormat;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -55,7 +54,7 @@ public class BleSyncActivity extends AppCompatActivity implements Observer {
     BleClient bleClient;
 
     MySensorManager mySensorManager;
-    private int start;
+    private int currentState;
 
     Button btnMaster;
     Button btnClient;
@@ -101,7 +100,7 @@ public class BleSyncActivity extends AppCompatActivity implements Observer {
         etFileName.setEnabled(true);
         btnStart.setText("START");
         tv_log.setText("");
-
+        currentState = STOPPED;
     }
 
 
@@ -113,7 +112,7 @@ public class BleSyncActivity extends AppCompatActivity implements Observer {
                     toastError("Not Connected Yet");
                     return;
                 }
-                switch (start){
+                switch (currentState){
                     case STOPPED:
                         String fileName = etFileName.getText().toString();
                         if(fileName.equals("")){
@@ -123,18 +122,18 @@ public class BleSyncActivity extends AppCompatActivity implements Observer {
                         saveFileName(fileName);
                         bleServer.sendFileCommands(fileName);
                         ((Button) v).setText("START");
-                        start = FILE_INITED;
+                        currentState = FILE_INITED;
                         etFileName.setEnabled(false);
                         break;
                     case FILE_INITED:
                         bleServer.sendStartCommands();
                         ((Button) v).setText("STOP");
-                        start = STARTING;
+                        currentState = STARTING;
                         break;
                     case STARTING:
                         bleServer.sendStopCommands();
                         ((Button) v).setText("INIT FILE");
-                        start = STOPPED;
+                        currentState = STOPPED;
                         etFileName.setEnabled(true);
                         break;
                 }
@@ -189,7 +188,7 @@ public class BleSyncActivity extends AppCompatActivity implements Observer {
                             });
                             showLog("FILE INITED");
                         } catch (IOException e) {
-                            e.printStackTrace();
+                            showLog(e.getMessage());
                         }
                     }
                 }, new StartCallBack() {

@@ -18,12 +18,8 @@ public class SensorSokectWriter extends SensorGlobalWriter{
     private volatile boolean stop;
 
     @Override
-    public void setFileName(String address){
-        try {
-            dataClient.connect(address,10007);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+    public void setFileName(String address) throws IOException {
+        dataClient.connect(address,10007);
     }
 
     public SensorSokectWriter() {
@@ -60,7 +56,13 @@ public class SensorSokectWriter extends SensorGlobalWriter{
     }
 
     public void close() {
-            stop = true;
+        stop = true;
+        try {
+            if(dataClient!=null)
+            dataClient.disconnect();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
 

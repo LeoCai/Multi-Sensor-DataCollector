@@ -52,7 +52,7 @@ public class SensorGlobalWriter extends Observable implements SensorEventListene
         }
     }
 
-    public void setFileName(String fileName){
+    public void setFileName(String fileName) throws IOException {
         try {
             fileWriter = new FileWriter(new File(Environment.getExternalStorageDirectory(), fileName));
             fileWriter.write(cuShakingData.getCSVHead());

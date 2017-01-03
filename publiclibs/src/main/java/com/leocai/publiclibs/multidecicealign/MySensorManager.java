@@ -6,6 +6,7 @@ import android.hardware.SensorManager;
 
 import com.leocai.publiclibs.PublicConstants;
 
+import java.io.IOException;
 import java.util.Observer;
 
 /**
@@ -77,7 +78,7 @@ public class MySensorManager {
      * 设置文件名或ip地址
      * @param fileName
      */
-    public void setFileName(String fileName) {
+    public void setFileName(String fileName) throws IOException {
         sensorGlobalWriter.setFileName(fileName);
     }
 
