@@ -87,6 +87,7 @@ bleServer.close();//关闭服务器
 ### 蓝牙客户端：[BleClient.java](https://github.com/LeoCai/Multi-Sensor-DataCollector/blob/master/publiclibs/src/main/java/com/leocai/publiclibs/multidecicealign/BleClient.java)
 ```java
 BleClient bleClient = new BleClient(masterAddress);
+//开始连接并设置相关回调函数
 bleClient.connect(new ConnectedCallBack() {
                 //设置连接回调函数
                     @Override
@@ -121,4 +122,5 @@ bleClient.connect(new ConnectedCallBack() {
                         mySensorManager.stop();
                     }
                 });
+bleClient.close();//关闭客户端
 ```
