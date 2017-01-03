@@ -28,8 +28,7 @@ Multi Sensor DataCollector
 修改位置：[MySensorManager.java](publiclibs/src/main/java/com/leocai/publiclibs/multidecicealign/MySensorManager.java)
 
 # 参数修改
-频率周期修改: [CollectorConfig.java](multi_sensor_collector/src/main/java/com/leocai/multidevicesalign/CollectorConfig.java)
-
+~~频率周期修改: [CollectorConfig.java](multi_sensor_collector/src/main/java/com/leocai/multidevicesalign/CollectorConfig.java)~~
 # 项目配置
 ```gradle
 compileSdkVersion 23
