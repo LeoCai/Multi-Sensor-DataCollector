@@ -83,7 +83,7 @@ public class SensorGlobalWriter extends Observable implements SensorEventListene
                 while (!stop) {
                     if (cuShakingData.getLinearAccData() == null) continue;
 //                    Log.d(TAG,"dection");
-                    cuShakingData.transform();
+//                    cuShakingData.transform();
                     notifyObservers(cuShakingData);
                     setChanged();
                     try {
@@ -115,7 +115,7 @@ public class SensorGlobalWriter extends Observable implements SensorEventListene
         Sensor sensor = event.sensor;
         if (sensor.getType() == Sensor.TYPE_ACCELEROMETER) {
             cuShakingData.setAccData(new double[]{event.values[0],event.values[1],event.values[2]});
-            cuShakingData.setTimeStamp(new Date().getTime());
+//            cuShakingData.setTimeStamp(new Date().getTime());
             if (preTimestamp != 0)
                 cuShakingData.setDt(1.0 * (event.timestamp - preTimestamp) / 1000000000);
             preTimestamp = event.timestamp;

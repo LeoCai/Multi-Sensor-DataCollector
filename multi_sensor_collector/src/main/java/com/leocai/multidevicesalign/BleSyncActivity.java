@@ -18,6 +18,7 @@ import com.leocai.publiclibs.connection.BleServer;
 import com.leocai.publiclibs.multidecicealign.BleClient;
 import com.leocai.publiclibs.multidecicealign.FileInitCallBack;
 import com.leocai.publiclibs.multidecicealign.MySensorManager;
+import com.leocai.publiclibs.multidecicealign.SensorGlobalWriter;
 import com.leocai.publiclibs.multidecicealign.SensorSokectWriter;
 import com.leocai.publiclibs.multidecicealign.StartCallBack;
 import com.leocai.publiclibs.multidecicealign.StopCallBack;
@@ -132,7 +133,8 @@ public class BleSyncActivity extends AppCompatActivity implements Observer {
                         break;
                     case STARTING:
                         bleServer.sendStopCommands();
-                        ((Button) v).setText("INIT FILE");
+                        ((Button) v).setText("Need Reset");
+                        ((Button) v).setEnabled(false);
                         currentState = STOPPED;
                         etFileName.setEnabled(true);
                         break;
@@ -160,7 +162,7 @@ public class BleSyncActivity extends AppCompatActivity implements Observer {
                 btnStart.setEnabled(false);
                 btnClient.setEnabled(false);
                 mySensorManager = new MySensorManager(BleSyncActivity.this);
-                mySensorManager.setGlobalWriter(new SensorSokectWriter());
+                mySensorManager.setGlobalWriter(new SensorGlobalWriter());
                 frequency = Integer.parseInt(edt_frequency.getText().toString());
                 saveFrequncy(frequency);
                 mySensorManager.setFrequency(frequency);

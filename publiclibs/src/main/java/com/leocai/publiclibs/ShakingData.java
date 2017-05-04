@@ -221,10 +221,10 @@ public class ShakingData implements Serializable, Cloneable {
 
     public void setLinearAccData(double[] linearAccData) {
         this.linearAccData = linearAccData;
-        if (linearAccData == null) return;
-        this.resultantAccData = Math.sqrt(Math.pow(linearAccData[0], 2)
-                + Math.pow(linearAccData[1], 2)
-                + Math.pow(linearAccData[2], 2));
+//        if (linearAccData == null) return;
+//        this.resultantAccData = Math.sqrt(Math.pow(linearAccData[0], 2)
+//                + Math.pow(linearAccData[1], 2)
+//                + Math.pow(linearAccData[2], 2));
     }
 
     public double[] getGyrData() {
@@ -338,15 +338,15 @@ public class ShakingData implements Serializable, Cloneable {
             info.append(i);
             info.append(",");
         }
-        for (int i = 0; i < 3; i++) {
-            info.append("ConvertedData");
-            info.append(i);
-            info.append(",");
-        }
-        info.append("ResultantAcc");
-        info.append(",");
-        info.append("Timestamp");
-        info.append(",");
+//        for (int i = 0; i < 3; i++) {
+//            info.append("ConvertedData");
+//            info.append(i);
+//            info.append(",");
+//        }
+//        info.append("ResultantAcc");
+//        info.append(",");
+//        info.append("Timestamp");
+//        info.append(",");
         info.append("dt");
         info.append("\n");
         return info.toString();
@@ -379,16 +379,16 @@ public class ShakingData implements Serializable, Cloneable {
                 info.append(this.magnetData[i]);
             info.append(",");
         }
-        for (int i = 0; i < 3; i++) {
-            if(convertedData!=null)
-                info.append(this.convertedData[i]);
-            info.append(",");
-        }
-        info.append(resultantAccData);
-        info.append(",");
-        SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
-        info.append(sdf.format(new Date(timeStamp)));
-        info.append(",");
+//        for (int i = 0; i < 3; i++) {
+//            if(convertedData!=null)
+//                info.append(this.convertedData[i]);
+//            info.append(",");
+//        }
+//        info.append(resultantAccData);
+//        info.append(",");
+//        SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
+//        info.append(sdf.format(new Date(timeStamp)));
+//        info.append(",");
         info.append(dt);
         info.append("\n");
 
