@@ -6,11 +6,11 @@
 <strong>writecsv必须unchecked(默认是checked)<strong>
 
 ## 简介
-客户端用socket连接pc服务端
-服务端注册数据监听
-安卓客户端持续收集传感器数据，每次采样以逗号分割
-通过socket发送采样到服务端
-服务端数据监听器接收并解析数据
+1.客户端用socket连接pc服务端
+2.服务端注册数据监听
+3.安卓客户端持续收集传感器数据，每次采样以逗号分割
+4.通过socket发送采样到服务端
+5.服务端数据监听器接收并解析数据
 
 ## 依赖项目（目前jar包依赖，建议替换成项目依赖）
 [iSpaceSync](https://github.com/LeoCai/iSpaceSync)
