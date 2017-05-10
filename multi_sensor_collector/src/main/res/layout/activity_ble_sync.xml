@@ -42,14 +42,23 @@
         android:layout_centerHorizontal="true"
         android:textSize="50sp" />
 
+    <Switch
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Write CSV?(Unchecked Means Write Socket)"
+        android:id="@+id/switch_writecsv"
+        android:layout_below="@+id/btn_start"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="24dp"
+        android:checked="true" />
+
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/et_filename"
         android:hint="File Name"
-        android:layout_below="@+id/btn_start"
+        android:layout_below="@+id/switch_writecsv"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="51dp"
         android:textSize="30sp"
         android:gravity="center" />
 
@@ -72,6 +81,8 @@
         android:gravity="center"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true" />
+
+
 
 
 </RelativeLayout>

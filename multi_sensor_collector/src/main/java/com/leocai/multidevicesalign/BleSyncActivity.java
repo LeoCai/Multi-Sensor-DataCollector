@@ -10,6 +10,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -44,6 +45,8 @@ public class BleSyncActivity extends AppCompatActivity implements Observer {
     private static final String PREFS_NAME = "pref";
     private static final String PREF_FREQUNCY_KEY = "frequncy";
     private static final String PREF_FILENAME_KEY = "filename";
+    private static final String PREF_CSV_SWITCH_KEY = "csvswitch";
+
 
     private static final int STOPPED = 0;
     private static final int FILE_INITED = 1;
@@ -67,6 +70,10 @@ public class BleSyncActivity extends AppCompatActivity implements Observer {
     private String masterAddress;
     private int frequency;
 
+    private SensorGlobalWriter csvWriter = new SensorGlobalWriter();
+    private SensorSokectWriter socketWriter = new SensorSokectWriter();
+    private Switch writeCSVSwitch;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,11 +86,8 @@ public class BleSyncActivity extends AppCompatActivity implements Observer {
         etFileName = (EditText) findViewById(R.id.et_filename);
         edt_masterAddress = (EditText) findViewById(R.id.edt_masterAddress);
         edt_frequency = (EditText) findViewById(R.id.edt_sensor_frequency);
-
+        writeCSVSwitch = (Switch) findViewById(R.id.switch_writecsv);
         init();
-
-
-
     }
 
     public void init(){
@@ -102,6 +106,7 @@ public class BleSyncActivity extends AppCompatActivity implements Observer {
         btnStart.setText("START");
         tv_log.setText("");
         currentState = STOPPED;
+        writeCSVSwitch.setChecked(readCSVSwitch());
     }
 
 
@@ -109,14 +114,14 @@ public class BleSyncActivity extends AppCompatActivity implements Observer {
         findViewById(R.id.btn_start).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(bleServer==null){
+                if (bleServer == null) {
                     toastError("Not Connected Yet");
                     return;
                 }
-                switch (currentState){
+                switch (currentState) {
                     case STOPPED:
                         String fileName = etFileName.getText().toString();
-                        if(fileName.equals("")){
+                        if (fileName.equals("")) {
                             toastError("Please input fileName first");
                             return;
                         }
@@ -162,7 +167,11 @@ public class BleSyncActivity extends AppCompatActivity implements Observer {
                 btnStart.setEnabled(false);
                 btnClient.setEnabled(false);
                 mySensorManager = new MySensorManager(BleSyncActivity.this);
-                mySensorManager.setGlobalWriter(new SensorGlobalWriter());
+                if(writeCSVSwitch.isChecked())
+                    mySensorManager.setGlobalWriter(csvWriter);
+                else
+                    mySensorManager.setGlobalWriter(socketWriter);
+                saveCSVSwitch(writeCSVSwitch.isChecked());
                 frequency = Integer.parseInt(edt_frequency.getText().toString());
                 saveFrequncy(frequency);
                 mySensorManager.setFrequency(frequency);
@@ -289,6 +298,18 @@ public class BleSyncActivity extends AppCompatActivity implements Observer {
     private int readFrequncy() {
         SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
         return settings.getInt(PREF_FREQUNCY_KEY, 50);
+    }
+
+    private void saveCSVSwitch(boolean sw) {
+        SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
+        SharedPreferences.Editor editor = settings.edit();
+        editor.putBoolean(PREF_CSV_SWITCH_KEY, sw);
+        editor.apply();
+    }
+
+    private Boolean readCSVSwitch() {
+        SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
+        return settings.getBoolean(PREF_CSV_SWITCH_KEY, true);
     }
 
 
