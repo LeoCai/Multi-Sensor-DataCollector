@@ -13,6 +13,10 @@ Multi Sensor DataCollector
 <img src="./imgs/s6.png" width=500 height=500 />
 
 
+# 服务端demo
+* 若是以wifi连接服务端模式，见[服务端demo](https://github.com/LeoCai/Multi-Sensor-DataCollector/tree/master/MultiSensorCollecterServerDemo)
+* 注意安卓端app中 writecsv 需要unchecked;
+
 
 # 待解决问题
 1. sockect模式下不能重复连接使用
