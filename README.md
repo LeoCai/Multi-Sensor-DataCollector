@@ -83,6 +83,8 @@ mySensorManager.setFileName("127.0.0.1"); //设置文件名或者ip地址
 mySensorManager.startDetection(); //写文件或写socket
 ```
 
+### 传感器数据结构类：[ShakingData.java](https://github.com/LeoCai/Multi-Sensor-DataCollector/blob/master/publiclibs/src/main/java/com/leocai/publiclibs/ShakingData.java)
+
 ### 蓝牙服务器：[BleServer.java](https://github.com/LeoCai/Multi-Sensor-DataCollector/blob/master/publiclibs/src/main/java/com/leocai/publiclibs/connection/BleServer.java)
 #### 调用方式
 ```java
