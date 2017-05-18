@@ -16,6 +16,7 @@ Multi Sensor DataCollector
 * 可用于科研采集数据;
 * 两种模式：一种采集后写本地csv（界面上writecsv 需要checked）；一种采集后socket发送服务端（界面上writecsv 需要unchecked）
 * 支持一个主节点进行蓝牙控制（按MASTER），多个从节点同时开始采集数据（按CLIENT）；
+* 支持android平台智能手表数据采集
 
 <img src="./imgs/s5.png" width=150 /> <img src="./imgs/s7.png" width=150 /> <img src="./imgs/s6.png" width=300 />
 
