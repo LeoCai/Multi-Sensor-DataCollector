@@ -1,17 +1,28 @@
 Multi Sensor DataCollector
 ===
+# 目录
+1. [项目简介](#项目简介)
+2. [服务端demo](#服务端demo)
+3. [待解决问题](#待解决问题)
+4. [采集的数据类型](#采集的数据类型)
+5. [参数修改](#参数修改)
+6. [项目配置](#项目配置)
+7. [使用方式](#使用方式)
+8. [主要函数介绍](#主要函数介绍)
+
 
 # 项目简介
 * 用于多客户端传感器采集和发送;
 * 可用于科研采集数据;
-* 可利用wifi实时传输传感器数据；
-* 支持一个主节点进行蓝牙控制，多个从节点同时开始采集数据；
-* 支持利用sokect实时传输传感器数据到服务器
+* 两种模式：一种采集后写本地csv（界面上writecsv 需要checked）；一种采集后socket发送服务端（界面上writecsv 需要unchecked）
+* 支持一个主节点进行蓝牙控制（按MASTER），多个从节点同时开始采集数据（按CLIENT）；
 
-<img src="./imgs/s5.png" width=200 height=380 />
-<img src="./imgs/s7.png" width=200 height=380 />
-<img src="./imgs/s6.png" width=500 height=500 />
+<img src="./imgs/s5.png" width=150 /> <img src="./imgs/s7.png" width=150 /> <img src="./imgs/s6.png" width=300 />
 
+
+# 服务端demo
+* 若是以wifi连接服务端模式，见[服务端demo](https://github.com/LeoCai/Multi-Sensor-DataCollector/tree/master/MultiSensorCollecterServerDemo)
+* 注意安卓端app中 writecsv 需要unchecked;
 
 
 # 待解决问题
@@ -54,10 +65,10 @@ buildToolsVersion "23.0.1"
   3. 从手机显示FILE INITED，服务端显示...CONNECTED
   4. 主手机按下START，服务端按下READY，开始传输数据
   
-#主要函数介绍
+# 主要函数介绍
 ## module 介绍
-* multi_sensor_collector 项目界面模块，用于安装app，依赖publiclibs
-* publiclibs 封装了采集数据和传输框架，依赖spacesync.jar
+* <strong>multi_sensor_collector</strong>: 项目界面模块，用于安装app，依赖publiclibs，包含蓝牙服务端和蓝牙客户端
+* <strong>publiclibs</strong> : 封装了采集数据和传输框架，依赖spacesync.jar，包括采集数据，数据格式，频率
 
 ## publiclibs
 ### 传感器采集核心类：[MySensorManager.java](https://github.com/LeoCai/Multi-Sensor-DataCollector/blob/master/publiclibs/src/main/java/com/leocai/publiclibs/multidecicealign/MySensorManager.java)
@@ -70,6 +81,8 @@ mySensorManager.startSensor();　//启动传感器
 mySensorManager.setFileName("127.0.0.1"); //设置文件名或者ip地址
 mySensorManager.startDetection(); //写文件或写socket
 ```
+
+### 传感器数据结构类：[ShakingData.java](https://github.com/LeoCai/Multi-Sensor-DataCollector/blob/master/publiclibs/src/main/java/com/leocai/publiclibs/ShakingData.java)
 
 ### 蓝牙服务器：[BleServer.java](https://github.com/LeoCai/Multi-Sensor-DataCollector/blob/master/publiclibs/src/main/java/com/leocai/publiclibs/connection/BleServer.java)
 #### 调用方式
