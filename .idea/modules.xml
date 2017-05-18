@@ -8,7 +8,7 @@
       <module fileurl="file://$PROJECT_DIR$/publiclibs/publiclibs.iml" filepath="$PROJECT_DIR$/publiclibs/publiclibs.iml" />
       <module fileurl="file://$PROJECT_DIR$/unsued1/unsued1.iml" filepath="$PROJECT_DIR$/unsued1/unsued1.iml" />
       <module fileurl="file://$PROJECT_DIR$/wear_depracated/wear_depracated.iml" filepath="$PROJECT_DIR$/wear_depracated/wear_depracated.iml" />
-      <module fileurl="file://$PROJECT_DIR$/weardata_depracated/weardata_depracated.iml" filepath="$PROJECT_DIR$/weardata_depracated/weardata_depracated.iml" />
+      <module fileurl="file://$PROJECT_DIR$/weardata_collector/weardata_collector.iml" filepath="$PROJECT_DIR$/weardata_collector/weardata_collector.iml" />
     </modules>
   </component>
 </project>

@@ -1,1 +1,1 @@
-include ':unsued1', ':wear_depracated', ':detection_unused', ':multi_sensor_collector', ':publiclibs', ':weardata_depracated'
+include ':unsued1', ':wear_depracated', ':detection_unused', ':multi_sensor_collector', ':publiclibs', ':weardata_collector'

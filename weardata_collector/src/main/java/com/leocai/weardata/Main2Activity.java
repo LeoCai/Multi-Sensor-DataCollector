@@ -22,6 +22,9 @@ import java.io.OutputStream;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+/**
+ * 握手认证系统数据采集，依赖publiclibs项目，MOTO 360
+ */
 public class Main2Activity extends Activity {
 
     private static final String TAG = "Main2Activity";

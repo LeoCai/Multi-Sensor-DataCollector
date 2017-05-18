@@ -14,7 +14,7 @@
             <option value="$PROJECT_DIR$/publiclibs" />
             <option value="$PROJECT_DIR$/unsued1" />
             <option value="$PROJECT_DIR$/wear_depracated" />
-            <option value="$PROJECT_DIR$/weardata_depracated" />
+            <option value="$PROJECT_DIR$/weardata_collector" />
           </set>
         </option>
       </GradleProjectSettings>
